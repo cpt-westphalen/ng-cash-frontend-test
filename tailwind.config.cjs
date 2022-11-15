@@ -21,11 +21,9 @@ module.exports = {
 				},
 			},
 			borderRadius: {
-				rounded: {
-					DEFAULT: "8px",
-					lg: "12px",
-					xl: "32px",
-				},
+				DEFAULT: "8px",
+				lg: "12px",
+				xl: "32px",
 			},
 		},
 	},

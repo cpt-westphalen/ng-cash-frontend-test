@@ -1,8 +1,9 @@
+import { Home } from "./routes/Home";
+
 function App() {
 	return (
 		<div>
-			Hello world!
-			<a>broken link :(</a>
+			<Home />
 		</div>
 	);
 }
