@@ -1,3 +1,4 @@
+import { Fancy } from "./Fancy";
 import { Minimalist } from "./Minimalist";
 
 type ButtonProps = {
@@ -16,6 +17,14 @@ export const Button = ({ type, onClick, className, children }: ButtonProps) => {
 					onClick={onClick}>
 					{children}
 				</Minimalist>
+			);
+		case "fancy":
+			return (
+				<Fancy
+					className={className}
+					onClick={onClick}>
+					{children}
+				</Fancy>
 			);
 		default:
 			return (
