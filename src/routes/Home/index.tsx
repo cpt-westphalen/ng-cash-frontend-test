@@ -1,4 +1,4 @@
-import logotype from "../../assets/logo-ngcash-branco.88c5860.svg";
+import logotype from "../../assets/logo-ngcash-branco-simples.88c5860.svg";
 
 import { Button } from "../../components/Button";
 
