@@ -1,4 +1,4 @@
-import logotype from "../../assets/logo-ngcash-branco-simples.88c5860.svg";
+import logotypeGif from "../../assets/logo_ng_cash.38841a96a95927fdf7bf.gif";
 import { GoChevronLeft } from "react-icons/go";
 
 import { Button } from "../../components/Button";
@@ -10,25 +10,21 @@ export const Login = () => {
 	};
 
 	return (
-		<>
+		<div className='min-h-screen flex flex-col justify-center items-center'>
 			<Link to='/'>
 				<button className='fixed top-6 left-2'>
 					<GoChevronLeft size={32} />
 				</button>
 			</Link>
-			<div className='h-screen flex flex-col justify-evenly items-center'>
-				<div className='flex flex-col'>
-					<img
-						src={logotype}
-						alt='NG.CASH'
-						width={60}
-					/>
-					<h1 className='font-semibold text-4xl whitespace-pre-wrap'>
-						{`A Carteira Digital \nda Nova Geração.`}
-					</h1>
-				</div>
-				<div>
-					<form className='flex flex-row flex-wrap gap-8 justify-center'>
+			<div className='px-8 min-h-screen max-w-5xl flex flex-col justify-evenly lg:justify-center items-stretch'>
+				<img
+					src={logotypeGif}
+					alt='NG.CASH'
+					width={160}
+					className={"self-center lg:mb-24"}
+				/>
+				<form className='flex flex-col gap-8 justify-center items-center lg:mb-32'>
+					<div className='flex flex-row flex-wrap gap-4 justify-center items-center'>
 						<div className='flex flex-col gap-2'>
 							<label
 								className='text-2xl font-semibold'
@@ -60,14 +56,14 @@ export const Login = () => {
 								className='h-10 w-72 pl-4 placeholder:text-gray rounded-xl border border-solid border-primary bg-secondary'
 							/>
 						</div>
-						<Button
-							type='fancy'
-							onClick={handleLogin}>
-							ENTRAR
-						</Button>
-					</form>
-				</div>
+					</div>
+					<Button
+						type='fancy'
+						onClick={handleLogin}>
+						ENTRAR
+					</Button>
+				</form>
 			</div>
-		</>
+		</div>
 	);
 };
