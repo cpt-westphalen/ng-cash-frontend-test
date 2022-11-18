@@ -4,10 +4,8 @@ import { GoChevronLeft } from "react-icons/go";
 import { Button } from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 
-import axios from "axios";
 import { SubmitHandler, useForm } from "react-hook-form";
-
-// Make React-Hook-Form with controlled data do an axios post to '/login' with credentials as payload.
+import { loginToAccount } from "../../services/auth";
 
 type LoginFormTypes = {
 	username: string;
@@ -24,9 +22,7 @@ export const Login = () => {
 	} = useForm<LoginFormTypes>();
 
 	const onSubmit: SubmitHandler<LoginFormTypes> = (data) => {
-		sessionStorage.removeItem("user");
-		axios.post("/api/auth", data).then((res) => {
-			sessionStorage.setItem("user", JSON.stringify(res.data));
+		loginToAccount(data).then(() => {
 			navigate("/");
 		});
 	};

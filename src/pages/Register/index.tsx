@@ -6,7 +6,7 @@ import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 
-import axios from "axios";
+import { registerNewAccount } from "../../services/auth";
 
 type RegisterFormTypes = {
 	username: string;
@@ -23,14 +23,7 @@ export const Register = () => {
 	} = useForm<RegisterFormTypes>();
 
 	const onSubmit: SubmitHandler<RegisterFormTypes> = (data) => {
-		axios.post("/api/register", data).then((res) => {
-			sessionStorage.setItem(
-				"user",
-				JSON.stringify({
-					username: data.username,
-					accessToken: res.data.accessToken,
-				})
-			);
+		registerNewAccount(data).then(() => {
 			navigate("/");
 		});
 	};
