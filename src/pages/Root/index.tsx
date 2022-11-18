@@ -1,33 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { Home } from "../../components/Home";
-
-type UserTypes = {
-	id: string;
-	username: string;
-	accessToken: string;
-};
+import { UserContext } from "../../contexts/UserContext";
 
 function Root() {
-	const [user, setUser] = useState<UserTypes>();
-	const isAuth: boolean = user && user.accessToken ? true : false;
-
-	useEffect(() => {
-		const localUserDataString = sessionStorage.getItem("user");
-		if (localUserDataString) {
-			const localUserData: UserTypes = JSON.parse(localUserDataString);
-			if (user?.accessToken !== localUserData.accessToken) {
-				setUser(localUserData);
-			}
-		}
-	}, []);
+	const user = useContext(UserContext);
 
 	return (
 		<>
-			{isAuth ? (
+			{user?.accessToken ? (
 				<button
 					onClick={() => {
-						sessionStorage.removeItem("user");
-						setUser(undefined);
+						user.logout();
 					}}>
 					Logout?
 				</button>

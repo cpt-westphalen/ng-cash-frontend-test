@@ -23,3 +23,7 @@ export const loginToAccount = (credentials : UserCredentials) => {
 			sessionStorage.setItem("user", JSON.stringify(res.data));
 		});
 }
+
+export const localLogout = () => {
+	sessionStorage.removeItem("user");
+}
