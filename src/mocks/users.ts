@@ -1,9 +1,20 @@
-export const users = [
+import { UserType } from "../contexts/UserContext";
+
+interface APIUserData extends UserType {
+    password: string,
+    account: {id: string, balance: number}
+}
+
+export const users : APIUserData[] = [
     {
         id: '0000',
         username: 'admin',
         password: '1234',
         accessToken: '',
+        account: {
+            id: '000001',
+            balance: 10000
+        }
     }
 ]
 
@@ -20,7 +31,11 @@ export function addUser(data : {username: string, password: string}) {
         id: (Math.floor(Math.random() * 10000)).toString(),
         username: data.username,
         password: data.password,
-        accessToken: generateToken()
+        accessToken: generateToken(),
+        account: {
+            id: generateToken(),
+            balance: 10000
+        }
     }
     console.log(newUser);
     users.push(newUser);
@@ -36,4 +51,8 @@ export function login(credentials : {username: string, password: string}) {
     } else {
         throw new Error('Invalid credentials');
     }
+}
+
+export function findUser(id : string) {
+    return users.find((user)=>user.id === id);
 }

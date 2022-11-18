@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
-import { localLogout } from "../services/auth";
+import { localLogout } from "../api/auth";
 
 export interface UserType {
 	id: string;

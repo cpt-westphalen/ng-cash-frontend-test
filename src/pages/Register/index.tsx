@@ -6,7 +6,7 @@ import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 
-import { registerNewAccount } from "../../services/auth";
+import { registerNewAccount } from "../../api/auth";
 
 type RegisterFormTypes = {
 	username: string;

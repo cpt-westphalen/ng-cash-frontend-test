@@ -5,7 +5,7 @@ import { Button } from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 
 import { SubmitHandler, useForm } from "react-hook-form";
-import { loginToAccount } from "../../services/auth";
+import { loginToAccount } from "../../api/auth";
 
 type LoginFormTypes = {
 	username: string;
