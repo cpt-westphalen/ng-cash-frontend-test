@@ -3,7 +3,7 @@ import { Minimalist } from "./Minimalist";
 
 type ButtonProps = {
 	type: "minimalist" | "fancy" | "inverted";
-	onClick: React.MouseEventHandler<HTMLButtonElement>;
+	onClick?: React.MouseEventHandler<HTMLButtonElement>;
 	className?: string;
 	children: React.ReactNode;
 };

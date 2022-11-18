@@ -12,7 +12,7 @@ function Root() {
 	const isAuth: boolean = user && user.accessToken ? true : false;
 
 	useEffect(() => {
-		const localUserDataString = localStorage.getItem("user");
+		const localUserDataString = sessionStorage.getItem("user");
 		if (localUserDataString) {
 			const localUserData: UserTypes = JSON.parse(localUserDataString);
 			if (user?.accessToken !== localUserData.accessToken) {
@@ -21,7 +21,21 @@ function Root() {
 		}
 	}, []);
 
-	return <>{isAuth ? <p>Account</p> : <Home />}</>;
+	return (
+		<>
+			{isAuth ? (
+				<button
+					onClick={() => {
+						sessionStorage.removeItem("user");
+						setUser(undefined);
+					}}>
+					Logout?
+				</button>
+			) : (
+				<Home />
+			)}
+		</>
+	);
 }
 
 export default Root;

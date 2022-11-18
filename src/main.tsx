@@ -6,6 +6,10 @@ import { ROUTES } from "./routes";
 
 import "./index.css";
 
+import { worker } from "./mocks/browser";
+
+worker.start();
+
 const router = createBrowserRouter(ROUTES);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

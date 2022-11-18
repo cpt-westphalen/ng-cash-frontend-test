@@ -2,11 +2,33 @@ import logotypeGif from "../../assets/logo_ng_cash.38841a96a95927fdf7bf.gif";
 import { GoChevronLeft } from "react-icons/go";
 
 import { Button } from "../../components/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import axios from "axios";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+// Make React-Hook-Form with controlled data do an axios post to '/login' with credentials as payload.
+
+type LoginFormTypes = {
+	username: string;
+	password: string;
+};
 
 export const Login = () => {
-	const handleLogin: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-		console.log("login clicked");
+	const navigate = useNavigate();
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<LoginFormTypes>();
+
+	const onSubmit: SubmitHandler<LoginFormTypes> = (data) => {
+		sessionStorage.removeItem("user");
+		axios.post("/api/auth", data).then((res) => {
+			sessionStorage.setItem("user", JSON.stringify(res.data));
+			navigate("/");
+		});
 	};
 
 	return (
@@ -23,7 +45,9 @@ export const Login = () => {
 					width={160}
 					className={"self-center lg:mb-24"}
 				/>
-				<form className='flex flex-col gap-8 justify-center items-center lg:mb-32'>
+				<form
+					onSubmit={handleSubmit(onSubmit)}
+					className='flex flex-col gap-8 justify-center items-center lg:mb-32'>
 					<div className='flex flex-row flex-wrap gap-4 justify-center items-center'>
 						<div className='flex flex-col gap-2'>
 							<label
@@ -33,8 +57,10 @@ export const Login = () => {
 							</label>
 							<div className='relative'>
 								<input
+									{...register("username", {
+										required: true,
+									})}
 									id='username'
-									minLength={3}
 									type='text'
 									placeholder='Digite seu username'
 									className='h-10 w-72 pl-8 placeholder:text-gray rounded-xl border border-solid border-primary bg-secondary'
@@ -49,19 +75,18 @@ export const Login = () => {
 								Senha
 							</label>
 							<input
+								{...register("password", {
+									required: true,
+									minLength: 4,
+								})}
 								id='password'
-								minLength={3}
 								type='password'
 								placeholder='Digite sua $eNh@.'
 								className='h-10 w-72 pl-4 placeholder:text-gray rounded-xl border border-solid border-primary bg-secondary'
 							/>
 						</div>
 					</div>
-					<Button
-						type='fancy'
-						onClick={handleLogin}>
-						ENTRAR
-					</Button>
+					<Button type='fancy'>ENTRAR</Button>
 				</form>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
 type FancyButtonProps = {
 	className?: string;
 	children: React.ReactNode;
-	onClick: React.MouseEventHandler<HTMLButtonElement>;
+	onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const defaultClasses =
