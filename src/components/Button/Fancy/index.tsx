@@ -13,7 +13,7 @@ export const Fancy = ({
 	onClick,
 }: FancyButtonProps) => {
 	return (
-		<div className='relative'>
+		<div className='relative w-fit'>
 			<div className='absolute top-1 left-1 w-full h-full border border-solid border-gray-light rounded-xl' />
 			<button
 				className={defaultClasses + className}
