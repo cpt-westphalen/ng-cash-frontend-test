@@ -28,7 +28,7 @@ export const Home = () => {
 					className='max-h-min flex-grow-0'>
 					<Button
 						type='minimalist'
-						className='text-gray border-hidden hover:text-primary hover:border-primary active:text-secondary'>
+						className='text-gray border-hidden hover:border-primary'>
 						Criar conta
 					</Button>
 				</Link>
