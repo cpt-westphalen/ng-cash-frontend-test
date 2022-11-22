@@ -61,6 +61,10 @@ export function login(credentials: { username: string; password: string }) {
 	}
 }
 
-export function findUser(accountId: string) {
+export function findUserByAccount(accountId: string) {
 	return users.find((user) => user.account.id === accountId);
+}
+
+export function findUserByUsername(username: string) {
+	return users.find((user) => user.username === username);
 }

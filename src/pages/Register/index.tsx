@@ -28,14 +28,18 @@ export const Register = () => {
 	} = useForm<RegisterFormTypes>();
 
 	const onSubmit: SubmitHandler<RegisterFormTypes> = (data) => {
-		registerNewAccount(data).then((res) => {
-			authDispatch({
-				type: "register",
-				payload: { status: res.status, data: res.data },
+		registerNewAccount(data)
+			.then((res) => {
+				authDispatch({
+					type: "register",
+					payload: { status: res.status, data: res.data },
+				});
+				sessionStorage.setItem("user", res.data);
+				setTimeout(() => navigate("/"), 1000);
+			})
+			.catch((error) => {
+				alert("Desculpe, esse nome de usuário já existe.");
 			});
-			sessionStorage.setItem("user", res.data);
-			setTimeout(() => navigate("/"), 1000);
-		});
 	};
 
 	const onError: SubmitErrorHandler<RegisterFormTypes> = (errors) =>

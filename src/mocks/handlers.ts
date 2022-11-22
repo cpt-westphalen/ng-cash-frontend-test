@@ -1,9 +1,15 @@
 import { rest } from "msw";
-import { addUser, findUser, login } from "./users";
+import { addUser, findUserByUsername, findUserByAccount, login } from "./users";
 
 export const handlers = [
 	rest.post("/api/register", async (req, res, ctx) => {
 		const data: { username: string; password: string } = await req.json();
+		const isTaken = findUserByUsername(data.username);
+		if (isTaken) {
+			return res(
+				ctx.status(409, "O nome de usuário já está registrado.")
+			);
+		}
 		const { username, id, accessToken, account } = addUser({ ...data });
 		return res(
 			ctx.json({ username, id, accessToken, account: { id: account.id } })
@@ -22,7 +28,7 @@ export const handlers = [
 	rest.get("/api/:account/:data", async (req, res, ctx) => {
 		const { account, data } = req.params;
 
-		const target = findUser(account as string);
+		const target = findUserByAccount(account as string);
 
 		if (!target) return res(ctx.status(404));
 
@@ -37,19 +43,4 @@ export const handlers = [
 			return res(ctx.status(403));
 		}
 	}),
-	// rest.post('/api/login', async (req, res, ctx)=>{
-
-	//     const credentials = await req.json();
-
-	//     try {
-	//         const payload = login(credentials);
-	//         ctx.status(200)
-	//         return res(ctx.json(payload));
-
-	//     } catch (e) {
-	//         console.error(e);
-	//         ctx.status(403);
-	//         return res();
-	//     }
-	//     }),
 ];
