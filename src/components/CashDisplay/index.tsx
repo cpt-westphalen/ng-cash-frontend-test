@@ -35,7 +35,7 @@ export const CashDisplay = ({ title, cash, display }: CashDisplayProps) => {
 			cash.toString().slice(0, -2) + "," + cash.toString().slice(-2);
 
 		return (
-			<div className='my-6 w-[80%] md:w-[60%] justify-self-center self-center'>
+			<div className='my-6 w-[95%] md:w-[60%] justify-self-center self-center'>
 				<div className='flex flex-row'>
 					<h1
 						id='title'
@@ -45,17 +45,21 @@ export const CashDisplay = ({ title, cash, display }: CashDisplayProps) => {
 					<div className='mx-1'>{EyeIcon}</div>
 				</div>
 				<div
-					className={`${
-						display.hide ? "scale-y-0 " : "scale-y-100 "
-					}h-12 py-1 text-3xl flex justify-center items-center bg-secondary border border-solid border-primary rounded-lg transition-transform`}>
-					{display.hide || (
-						<h2 aria-labelledby='title'>
-							R${" "}
-							<span className='font-bold'>
-								{cashFormattedValue}
-							</span>
-						</h2>
-					)}
+					className={`h-12 py-1 text-3xl flex justify-center items-center bg-secondary border border-solid border-primary rounded-lg transition-transform`}>
+					{display.hide && <h2>---</h2>}
+					<div
+						className={`transition ${
+							display.hide ? "scale-y-0 " : "scale-y-100 "
+						}`}>
+						{display.hide || (
+							<h2 aria-labelledby='title'>
+								R${" "}
+								<span className='font-bold'>
+									{cashFormattedValue}
+								</span>
+							</h2>
+						)}
+					</div>
 				</div>
 			</div>
 		);

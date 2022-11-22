@@ -28,7 +28,7 @@ export const Home = () => {
 					{`A Carteira Digital \nda Nova Geração.`}
 				</h1>
 			</div>
-			<div className='flex flex-col gap-8 justify-center lg:mb-32'>
+			<div className='flex flex-col gap-8 justify-center items-center lg:mb-32'>
 				<Link
 					to='/login'
 					className='max-h-min flex-grow-0'>
