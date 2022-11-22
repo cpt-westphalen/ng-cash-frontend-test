@@ -5,17 +5,6 @@ import logotype from "../../../assets/logo-ngcash-branco-simples.88c5860.svg";
 import { Button } from "../../../components/Button";
 
 export const Home = () => {
-	const handleLoginRoute: React.MouseEventHandler<HTMLButtonElement> = (
-		event
-	) => {
-		console.log("login clicked");
-	};
-	const handleRegisterRoute: React.MouseEventHandler<HTMLButtonElement> = (
-		event
-	) => {
-		console.log("register clicked");
-	};
-
 	return (
 		<div className='px-8 min-h-screen flex flex-col justify-evenly lg:justify-center items-stretch md:items-center'>
 			<div className='flex flex-col my-24'>
@@ -32,19 +21,14 @@ export const Home = () => {
 				<Link
 					to='/login'
 					className='max-h-min flex-grow-0'>
-					<Button
-						type='minimalist'
-						onClick={handleLoginRoute}>
-						Entrar na conta
-					</Button>
+					<Button type='minimalist'>Entrar na conta</Button>
 				</Link>
 				<Link
 					to='/register'
 					className='max-h-min flex-grow-0'>
 					<Button
 						type='minimalist'
-						className='text-gray border-hidden hover:text-primary hover:border-primary active:text-secondary'
-						onClick={handleRegisterRoute}>
+						className='text-gray border-hidden hover:text-primary hover:border-primary active:text-secondary'>
 						Criar conta
 					</Button>
 				</Link>

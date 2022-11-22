@@ -1,10 +1,10 @@
 import { useContext, useEffect } from "react";
 import { Home } from "./Home";
-import { UserContext } from "../../contexts/UserContext";
+import { AuthContext } from "../../contexts/AuthContext";
 import { Account } from "./Account";
 
 function Root() {
-	const user = useContext(UserContext);
+	const user = useContext(AuthContext);
 
 	return <>{user?.accessToken ? <Account /> : <Home />}</>;
 }

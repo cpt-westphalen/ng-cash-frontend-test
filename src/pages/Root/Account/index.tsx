@@ -1,9 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { UserContext, UserCtxType } from "../../../contexts/UserContext";
+import {
+	AccountType,
+	AuthContext,
+	AuthDispatch,
+	UserType,
+} from "../../../contexts/AuthContext";
+import { AuthAction } from "../../../contexts/authReducer";
 
-import { getBalance } from "../../../api/account";
+import { getAccount } from "../../../api/account";
 
 import { Modal } from "../../../components/Modal";
 import { Button } from "../../../components/Button";
@@ -12,50 +18,55 @@ import { CashHistory } from "../../../components/CashHistory";
 
 import { MdOutlineClose } from "react-icons/md";
 
-type AccountType = {
-	id: string;
-	balance: number;
-};
-
 export const Account = () => {
 	const navigate = useNavigate();
 
-	const user = useContext(UserContext) as UserCtxType;
+	const user = useContext(AuthContext) as UserType;
+	const authDispatch = useContext(AuthDispatch) as React.Dispatch<AuthAction>;
 
-	const [account, setAccount] = useState<AccountType>();
 	const [showCash, setShowCash] = useState(false);
 	const [logoutModalIsOpen, setLogoutModalIsOpen] = useState(false);
 
 	useEffect(() => {
 		const redirectToLogin = () => {
-			setAccount(undefined);
-			alert("Ops, ocorreu um problema. Por favor, faça login.");
+			authDispatch({
+				type: "logout",
+				payload: {
+					message: "Ops, ocorreu um problema. Por favor, faça login.",
+				},
+			});
 			navigate("/login");
 		};
 
-		if (!user) redirectToLogin();
-		if (!user.accessToken) {
-			user.logout();
-			redirectToLogin();
-		}
+		if (!user || !user.accessToken) redirectToLogin();
 
-		const { id, accessToken } = user;
-		const targetCredentials = { id, accessToken };
+		const {
+			accessToken,
+			account: { id },
+		} = user;
+		const targetCredentials = {
+			accessToken,
+			account: { id },
+		};
 
-		getBalance(targetCredentials)
-			.then((data) => setAccount(data))
+		getAccount(targetCredentials)
+			.then((account: AccountType) => {
+				console.log(account.id, account.balance);
+				authDispatch({ type: "update_balance", payload: account });
+			})
 			.catch((error) => {
-				console.log(error);
-				user.logout();
-				redirectToLogin();
+				authDispatch({
+					type: "logout",
+					payload: { message: "Ocorreu um erro. Faça login." },
+				});
 			});
-	}, []);
+	}, [user]);
 
 	const handleModalClose = () => {
 		setLogoutModalIsOpen(false);
 	};
 
-	if (account && user)
+	if (user && user.account.balance !== undefined)
 		return (
 			<div className='min-h-screen max-w-4xl mx-auto px-12 pt-10 lg:pt-24 flex flex-col justify-center'>
 				<button
@@ -77,7 +88,7 @@ export const Account = () => {
 				<div className='flex-1 flex flex-col pb-16'>
 					<CashDisplay
 						title='Saldo atual'
-						cash={account.balance}
+						cash={user.account.balance}
 						display={{ hide: !showCash, toggle: setShowCash }}
 					/>
 					<nav>

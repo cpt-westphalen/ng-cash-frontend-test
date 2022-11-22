@@ -6,7 +6,10 @@ import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 
-import { registerNewAccount } from "../../api/auth";
+import { loginToAccount, registerNewAccount } from "../../api/auth";
+import { useContext } from "react";
+import { AuthDispatch } from "../../contexts/AuthContext";
+import { AuthAction } from "../../contexts/authReducer";
 
 type RegisterFormTypes = {
 	username: string;
@@ -16,6 +19,8 @@ type RegisterFormTypes = {
 export const Register = () => {
 	const navigate = useNavigate();
 
+	const authDispatch = useContext(AuthDispatch) as React.Dispatch<AuthAction>;
+
 	const {
 		register,
 		handleSubmit,
@@ -23,8 +28,13 @@ export const Register = () => {
 	} = useForm<RegisterFormTypes>();
 
 	const onSubmit: SubmitHandler<RegisterFormTypes> = (data) => {
-		registerNewAccount(data).then(() => {
-			navigate("/");
+		registerNewAccount(data).then((res) => {
+			authDispatch({
+				type: "register",
+				payload: { status: res.status, data: res.data },
+			});
+			sessionStorage.setItem("user", res.data);
+			setTimeout(() => navigate("/"), 1000);
 		});
 	};
 

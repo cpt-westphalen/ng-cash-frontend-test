@@ -6,6 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { loginToAccount } from "../../api/auth";
+import { useContext } from "react";
+import { AuthContext, AuthDispatch } from "../../contexts/AuthContext";
 
 type LoginFormTypes = {
 	username: string;
@@ -15,6 +17,8 @@ type LoginFormTypes = {
 export const Login = () => {
 	const navigate = useNavigate();
 
+	const authDispatch = useContext(AuthDispatch);
+
 	const {
 		register,
 		handleSubmit,
@@ -22,9 +26,15 @@ export const Login = () => {
 	} = useForm<LoginFormTypes>();
 
 	const onSubmit: SubmitHandler<LoginFormTypes> = (data) => {
-		loginToAccount(data).then(() => {
-			navigate("/");
-		});
+		loginToAccount(data)
+			.then((res) => {
+				if (authDispatch)
+					authDispatch({ type: "login", payload: res.data });
+				setTimeout(() => navigate("/"), 1000);
+			})
+			.catch((error) => {
+				alert("Os dados inseridos estão incorretos.");
+			});
 	};
 
 	return (

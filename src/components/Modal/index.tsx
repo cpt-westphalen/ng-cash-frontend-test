@@ -2,11 +2,12 @@ import ReactModal from "react-modal";
 
 import { useContext } from "react";
 
-import { UserContext, UserCtxType } from "../../contexts/UserContext";
+import { AuthDispatch } from "../../contexts/AuthContext";
 
 import { Button } from "../Button";
 
 import { MdOutlineClose } from "react-icons/md";
+import { AuthAction } from "../../contexts/authReducer";
 
 type ModalProps = {
 	type:
@@ -19,10 +20,13 @@ type ModalProps = {
 };
 
 export const Modal = ({ type, props }: ModalProps) => {
-	const user = useContext(UserContext) as UserCtxType;
+	const authDispatch = useContext(AuthDispatch) as React.Dispatch<AuthAction>;
 
 	function handleLogout() {
-		user.logout();
+		authDispatch({
+			type: "logout",
+			payload: { message: "Você saiu da sua conta." },
+		});
 	}
 
 	switch (type) {
@@ -35,7 +39,7 @@ export const Modal = ({ type, props }: ModalProps) => {
 						"fixed top-0 left-0 right-0 bottom-0 bg-secondary bg-opacity-90"
 					}>
 					<button
-						aria-label='Sair da conta'
+						aria-label='Cancelar'
 						className='absolute top-0 right-0 m-3 p-1 rounded'
 						onClick={() => {
 							props.onRequestClose();

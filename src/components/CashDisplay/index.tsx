@@ -1,5 +1,6 @@
 import { AiFillEyeInvisible } from "react-icons/ai";
 import { AiFillEye } from "react-icons/ai";
+import { cashFormatter } from "../../utils/cashFormatter";
 
 type CashDisplayProps = {
 	title: string;
@@ -31,8 +32,7 @@ export const CashDisplay = ({ title, cash, display }: CashDisplayProps) => {
 			</button>
 		);
 
-		const cashFormattedValue =
-			cash.toString().slice(0, -2) + "," + cash.toString().slice(-2);
+		const cashFormattedValue = cashFormatter(cash);
 
 		return (
 			<div className='my-6 w-[95%] md:w-[60%] justify-self-center self-center'>
