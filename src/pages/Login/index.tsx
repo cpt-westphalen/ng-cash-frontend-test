@@ -31,7 +31,7 @@ export const Login = () => {
 		<div className='min-h-screen flex flex-col justify-center items-center'>
 			<Link
 				to='/'
-				className='fixed top-6 left-2 rounded'>
+				className='fixed top-6 left-2 rounded hover:scale-105 hover:-translate-x-1 transition '>
 				<GoChevronLeft size={32} />
 			</Link>
 			<div className='px-8 min-h-screen max-w-5xl flex flex-col justify-evenly lg:justify-center items-stretch'>

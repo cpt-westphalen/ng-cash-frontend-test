@@ -5,7 +5,7 @@ type MinimalistButtonProps = {
 };
 
 const defaultClasses =
-	"w-64 h-11 bg-secondary border border-solid border-primary rounded-xl ";
+	"font-semibold w-64 h-11 bg-secondary border border-solid border-primary rounded-xl hover:bg-primary hover:text-secondary transition ";
 
 export const Minimalist = ({
 	className = "",

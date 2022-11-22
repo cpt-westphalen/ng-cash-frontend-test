@@ -57,7 +57,7 @@ export const Account = () => {
 
 	if (account && user)
 		return (
-			<div className='min-h-screen px-12 pt-10 flex flex-col justify-center'>
+			<div className='min-h-screen max-w-4xl mx-auto px-12 pt-10 lg:pt-24 flex flex-col justify-center'>
 				<button
 					aria-label='Sair da conta'
 					className='absolute flex gap-2 items-center top-0 right-0 m-3 px-2 py-1 rounded group'
@@ -83,10 +83,19 @@ export const Account = () => {
 					<nav>
 						<ul className='py-6 flex flex-col justify-center items-center gap-3'>
 							<li>
-								<Button type='fancy'>Transferir</Button>
+								<Button
+									type='fancy'
+									className='hover:scale-105 transition
+								'>
+									Transferir
+								</Button>
 							</li>
 							<li>
-								<Button type='fancy'>Receber</Button>
+								<Button
+									type='fancy'
+									className='hover:scale-105 transition'>
+									Receber
+								</Button>
 							</li>
 							<li>
 								<CashHistory />

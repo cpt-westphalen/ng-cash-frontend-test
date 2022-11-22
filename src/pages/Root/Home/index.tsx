@@ -28,7 +28,7 @@ export const Home = () => {
 					{`A Carteira Digital \nda Nova Geração.`}
 				</h1>
 			</div>
-			<div className='flex flex-row flex-wrap gap-8 justify-center lg:mb-32'>
+			<div className='flex flex-col gap-8 justify-center lg:mb-32'>
 				<Link
 					to='/login'
 					className='max-h-min flex-grow-0'>
@@ -43,7 +43,7 @@ export const Home = () => {
 					className='max-h-min flex-grow-0'>
 					<Button
 						type='minimalist'
-						className='text-gray border-gray hover:text-primary hover:border-primary'
+						className='text-gray border-hidden hover:text-primary hover:border-primary active:text-secondary'
 						onClick={handleRegisterRoute}>
 						Criar conta
 					</Button>

@@ -19,7 +19,8 @@ export const CashDisplay = ({ title, cash, display }: CashDisplayProps) => {
 		const EyeIcon = display.hide ? (
 			<button
 				onClick={handleDisplayToggle}
-				aria-label={"Mostrar saldo"}>
+				aria-label={"Mostrar saldo"}
+				className='text-gray hover:text-white transition'>
 				<AiFillEye size={30} />
 			</button>
 		) : (
@@ -34,7 +35,7 @@ export const CashDisplay = ({ title, cash, display }: CashDisplayProps) => {
 			cash.toString().slice(0, -2) + "," + cash.toString().slice(-2);
 
 		return (
-			<div className='my-6 justify-self-center'>
+			<div className='my-6 w-[80%] md:w-[60%] justify-self-center self-center'>
 				<div className='flex flex-row'>
 					<h1
 						id='title'
