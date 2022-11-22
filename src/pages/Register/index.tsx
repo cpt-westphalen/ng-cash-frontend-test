@@ -33,10 +33,10 @@ export const Register = () => {
 
 	return (
 		<>
-			<Link to='/'>
-				<button className='fixed top-6 left-2'>
-					<GoChevronLeft size={32} />
-				</button>
+			<Link
+				to='/'
+				className='fixed top-6 left-2 rounded'>
+				<GoChevronLeft size={32} />
 			</Link>
 			<div className='px-8 min-h-screen flex flex-col justify-evenly lg:justify-center items-stretch md:items-center'>
 				<div className='flex flex-col my-24'>

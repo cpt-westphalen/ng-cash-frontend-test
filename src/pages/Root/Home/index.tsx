@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
-import logotype from "../../assets/logo-ngcash-branco-simples.88c5860.svg";
+import logotype from "../../../assets/logo-ngcash-branco-simples.88c5860.svg";
 
-import { Button } from "../Button";
+import { Button } from "../../../components/Button";
 
 export const Home = () => {
 	const handleLoginRoute: React.MouseEventHandler<HTMLButtonElement> = (

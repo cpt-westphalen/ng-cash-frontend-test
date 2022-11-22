@@ -1,7 +1,7 @@
-import { useContext } from "react";
-import { Home } from "../../components/Home";
+import { useContext, useEffect } from "react";
+import { Home } from "./Home";
 import { UserContext } from "../../contexts/UserContext";
-import { Account } from "../Account";
+import { Account } from "./Account";
 
 function Root() {
 	const user = useContext(UserContext);

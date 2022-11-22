@@ -29,10 +29,10 @@ export const Login = () => {
 
 	return (
 		<div className='min-h-screen flex flex-col justify-center items-center'>
-			<Link to='/'>
-				<button className='fixed top-6 left-2'>
-					<GoChevronLeft size={32} />
-				</button>
+			<Link
+				to='/'
+				className='fixed top-6 left-2 rounded'>
+				<GoChevronLeft size={32} />
 			</Link>
 			<div className='px-8 min-h-screen max-w-5xl flex flex-col justify-evenly lg:justify-center items-stretch'>
 				<img

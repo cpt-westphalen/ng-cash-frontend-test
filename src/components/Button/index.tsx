@@ -6,9 +6,16 @@ type ButtonProps = {
 	onClick?: React.MouseEventHandler<HTMLButtonElement>;
 	className?: string;
 	children: React.ReactNode;
+	theme?: "light" | "dark";
 };
 
-export const Button = ({ type, onClick, className, children }: ButtonProps) => {
+export const Button = ({
+	type,
+	onClick,
+	className,
+	children,
+	theme,
+}: ButtonProps) => {
 	switch (type) {
 		case "minimalist":
 			return (
@@ -22,7 +29,8 @@ export const Button = ({ type, onClick, className, children }: ButtonProps) => {
 			return (
 				<Fancy
 					className={className}
-					onClick={onClick}>
+					onClick={onClick}
+					theme={theme}>
 					{children}
 				</Fancy>
 			);
