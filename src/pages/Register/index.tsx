@@ -7,9 +7,10 @@ import { Button } from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 
 import { loginToAccount, registerNewAccount } from "../../api/auth";
-import { useContext } from "react";
-import { AuthDispatch } from "../../contexts/AuthContext";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext, AuthDispatch } from "../../contexts/AuthContext";
 import { AuthAction } from "../../contexts/authReducer";
+import { Modal } from "../../components/Modal";
 
 type RegisterFormTypes = {
 	username: string;
@@ -19,7 +20,24 @@ type RegisterFormTypes = {
 export const Register = () => {
 	const navigate = useNavigate();
 
+	const auth = useContext(AuthContext);
 	const authDispatch = useContext(AuthDispatch) as React.Dispatch<AuthAction>;
+
+	const [modalMessage, setModalMessage] = useState({
+		title: "Feito!",
+		desc: "Conta cadastrada com sucesso. Redirecionando...",
+		button: "Ok!",
+	});
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const body = document.querySelector("#root");
+
+	useEffect(() => {
+		if (auth?.accessToken) navigate("/");
+	}, []);
+
+	const handleModalClose = () => {
+		setIsModalOpen(false);
+	};
 
 	const {
 		register,
@@ -35,10 +53,18 @@ export const Register = () => {
 					payload: { status: res.status, data: res.data },
 				});
 				sessionStorage.setItem("user", res.data);
-				setTimeout(() => navigate("/"), 1000);
+				setIsModalOpen(true);
+				setTimeout(() => navigate("/"), 4000);
 			})
 			.catch((error) => {
-				alert("Desculpe, esse nome de usuário já existe.");
+				setModalMessage((state) => {
+					setIsModalOpen(true);
+					return {
+						title: "Ops!",
+						desc: "Esse nome de usuário já foi usado antes.",
+						button: "Revisar",
+					};
+				});
 			});
 	};
 
@@ -120,6 +146,18 @@ export const Register = () => {
 					<Button type='fancy'>CRIAR</Button>
 				</form>
 			</div>
+			{isModalOpen && (
+				<Modal
+					type='message'
+					message={modalMessage}
+					props={{
+						isOpen: isModalOpen,
+						preventScroll: true,
+						onRequestClose: handleModalClose,
+						appElement: body,
+					}}
+				/>
+			)}
 		</>
 	);
 };

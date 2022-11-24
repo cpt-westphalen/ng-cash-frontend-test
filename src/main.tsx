@@ -9,7 +9,7 @@ import "./index.css";
 
 import { worker } from "./mocks/browser";
 
-worker.start();
+worker.start({ onUnhandledRequest: "bypass" });
 
 const router = createBrowserRouter(ROUTES);
 

@@ -6,8 +6,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { loginToAccount } from "../../api/auth";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext, AuthDispatch } from "../../contexts/AuthContext";
+import { Modal } from "../../components/Modal";
 
 type LoginFormTypes = {
 	username: string;
@@ -17,7 +18,24 @@ type LoginFormTypes = {
 export const Login = () => {
 	const navigate = useNavigate();
 
+	const auth = useContext(AuthContext);
 	const authDispatch = useContext(AuthDispatch);
+
+	const [modalMessage, setModalMessage] = useState({
+		title: "Sucesso!",
+		desc: "Seu login foi realizado, redirecionando...",
+		button: "Ok!",
+	});
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const body = document.querySelector("#root");
+
+	const handleModalClose = () => {
+		setIsModalOpen(false);
+	};
+
+	useEffect(() => {
+		if (auth?.accessToken) navigate("/");
+	}, []);
 
 	const {
 		register,
@@ -30,10 +48,18 @@ export const Login = () => {
 			.then((res) => {
 				if (authDispatch)
 					authDispatch({ type: "login", payload: res.data });
-				setTimeout(() => navigate("/"), 1000);
+				setIsModalOpen(true);
+				setTimeout(() => navigate("/"), 4000);
 			})
 			.catch((error) => {
-				alert("Os dados inseridos estão incorretos.");
+				setModalMessage((state) => {
+					setIsModalOpen(true);
+					return {
+						title: "Ops!",
+						desc: "Os dados inseridos estão incorretos.",
+						button: "Revisar",
+					};
+				});
 			});
 	};
 
@@ -95,6 +121,18 @@ export const Login = () => {
 					<Button type='fancy'>ENTRAR</Button>
 				</form>
 			</div>
+			{isModalOpen && (
+				<Modal
+					type='message'
+					message={modalMessage}
+					props={{
+						isOpen: isModalOpen,
+						preventScroll: true,
+						onRequestClose: handleModalClose,
+						appElement: body,
+					}}
+				/>
+			)}
 		</div>
 	);
 };

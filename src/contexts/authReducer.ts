@@ -25,22 +25,15 @@ export const authReducer: Reducer<UserType, AuthAction> = (auth, action) => {
 		}
 		case "logout": {
 			localLogout();
-			if (action.payload) alert(action.payload.message);
 			return initialAuth;
 		}
 		case "register": {
-			if (action.payload.status == 200) {
-				alert(
-					action.payload.message || "Conta registrada com sucesso!"
-				);
-			}
 			return action.payload.data;
 		}
 		case "update_balance": {
 			const account = action.payload;
 			if (!account || account.id !== auth.account.id) {
 				localLogout();
-				alert("Ocorreu um erro. Faça login novamente.");
 				return initialAuth;
 			} else {
 				return {
