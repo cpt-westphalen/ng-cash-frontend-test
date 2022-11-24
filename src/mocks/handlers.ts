@@ -1,4 +1,5 @@
 import { rest } from "msw";
+import { createPayment } from "./transfers";
 import { addUser, findUserByUsername, findUserByAccount, login } from "./users";
 
 export const handlers = [
@@ -11,6 +12,7 @@ export const handlers = [
 			);
 		}
 		const { username, id, accessToken, account } = addUser({ ...data });
+		ctx.status(201);
 		return res(
 			ctx.json({ username, id, accessToken, account: { id: account.id } })
 		);
@@ -40,7 +42,42 @@ export const handlers = [
 					return res(ctx.status(404));
 			}
 		} else {
-			return res(ctx.status(403));
+			return res(ctx.status(401));
+		}
+	}),
+	rest.post("/api/:account/:action", async (req, res, ctx) => {
+		const { account, action } = req.params;
+
+		const user = findUserByAccount(account as string);
+
+		if (!user) return res(ctx.status(404));
+
+		if (user.accessToken === req.headers.get("authorization")) {
+			switch (action) {
+				case "cashout": {
+					const payload = (await req.json()) as {
+						from: string;
+						to: string;
+						amount: number;
+					};
+					if (payload) {
+						if (payload.amount < user.account.balance) {
+							return res(
+								ctx.status(409, "Não há saldo suficiente")
+							);
+						}
+						const target = findUserByUsername(payload.to);
+						if (target) {
+							createPayment(user, target, payload.amount);
+							return res(ctx.status(200));
+						} else {
+							return res(ctx.status(404));
+						}
+					} else {
+						return res(ctx.status(422));
+					}
+				}
+			}
 		}
 	}),
 ];

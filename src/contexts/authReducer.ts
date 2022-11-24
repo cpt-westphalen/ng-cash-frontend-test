@@ -1,7 +1,6 @@
 import { Reducer } from "react";
-import { getAccount } from "../api/account";
 import { localLogout } from "../api/auth";
-import { UserType } from "./AuthContext";
+import { UserType } from "../mocks/users";
 
 export type AuthAction = {
 	type: string;

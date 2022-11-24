@@ -1,17 +1,6 @@
 import { createContext, useReducer } from "react";
+import { UserType } from "../mocks/users";
 import { AuthAction, authReducer, initialAuth } from "./authReducer";
-
-export interface UserType {
-	id: string;
-	username: string;
-	accessToken: string;
-	account: AccountType;
-}
-
-export type AccountType = {
-	id: string;
-	balance: number;
-};
 
 type AuthContextType = {
 	user: UserType;
@@ -25,11 +14,6 @@ export const AuthDispatch = createContext<React.Dispatch<AuthAction> | null>(
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const [auth, dispatch] = useReducer(authReducer, initialAuth);
-
-	// const logout = useCallback(() => {
-	// 	localLogout();
-	// 	setUser(null);
-	// }, []);
 
 	return (
 		<AuthDispatch.Provider value={dispatch}>

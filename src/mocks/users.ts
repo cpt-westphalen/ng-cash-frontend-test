@@ -1,8 +1,19 @@
-import { AccountType, UserType } from "../contexts/AuthContext";
+export interface UserType {
+	id: string;
+	username: string;
+	accessToken: string;
+	account: AccountType;
+}
 
-interface APIUserData extends UserType {
+export type AccountType = {
+	id: string;
+	balance: number;
+};
+
+export interface APIUserData extends UserType {
 	password: string;
 	account: AccountType;
+	transfers: string[];
 }
 
 export const users: APIUserData[] = [
@@ -15,6 +26,7 @@ export const users: APIUserData[] = [
 			id: "000001",
 			balance: 10000,
 		},
+		transfers: [],
 	},
 ];
 
@@ -36,6 +48,7 @@ export function addUser(data: { username: string; password: string }) {
 			id: generateToken(),
 			balance: 10000,
 		},
+		transfers: [],
 	};
 	users.push(newUser);
 	return newUser;
