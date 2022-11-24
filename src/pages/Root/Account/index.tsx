@@ -66,7 +66,7 @@ export const Account = () => {
 		};
 
 		checkUserBalance();
-		const intervalHandle = setInterval(checkUserBalance, 5000);
+		const intervalHandle = setInterval(checkUserBalance, 10000);
 
 		return () => {
 			clearInterval(intervalHandle);
