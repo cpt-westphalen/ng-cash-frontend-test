@@ -27,6 +27,8 @@ export const Account = () => {
 	const [showCash, setShowCash] = useState(false);
 	const [logoutModalIsOpen, setLogoutModalIsOpen] = useState(false);
 
+	const body = document.querySelector("#root");
+
 	useEffect(() => {
 		const redirectToLogin = () => {
 			authDispatch({
@@ -38,29 +40,38 @@ export const Account = () => {
 			navigate("/login");
 		};
 
-		if (!user || !user.accessToken) redirectToLogin();
+		const checkUserBalance = async () => {
+			if (!user || !user.accessToken) redirectToLogin();
 
-		const {
-			accessToken,
-			account: { id },
-		} = user;
-		const targetCredentials = {
-			accessToken,
-			account: { id },
+			const {
+				accessToken,
+				account: { id },
+			} = user;
+			const targetCredentials = {
+				accessToken,
+				account: { id },
+			};
+
+			getAccount(targetCredentials)
+				.then((account: AccountType) => {
+					console.log(account.id, account.balance);
+					authDispatch({ type: "update_balance", payload: account });
+				})
+				.catch((error) => {
+					authDispatch({
+						type: "logout",
+						payload: { message: "Ocorreu um erro. Faça login." },
+					});
+				});
 		};
 
-		getAccount(targetCredentials)
-			.then((account: AccountType) => {
-				console.log(account.id, account.balance);
-				authDispatch({ type: "update_balance", payload: account });
-			})
-			.catch((error) => {
-				authDispatch({
-					type: "logout",
-					payload: { message: "Ocorreu um erro. Faça login." },
-				});
-			});
-	}, [user]);
+		checkUserBalance();
+		const intervalHandle = setInterval(checkUserBalance, 5000);
+
+		return () => {
+			clearInterval(intervalHandle);
+		};
+	}, []);
 
 	const handleModalClose = () => {
 		setLogoutModalIsOpen(false);
@@ -120,6 +131,7 @@ export const Account = () => {
 						isOpen: logoutModalIsOpen,
 						preventScroll: true,
 						onRequestClose: handleModalClose,
+						appElement: body,
 					}}
 				/>
 			</div>

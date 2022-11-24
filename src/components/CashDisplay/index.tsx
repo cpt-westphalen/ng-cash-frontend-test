@@ -1,6 +1,6 @@
 import { AiFillEyeInvisible } from "react-icons/ai";
 import { AiFillEye } from "react-icons/ai";
-import { cashFormatter } from "../../utils/cashFormatter";
+import { cashToLocaleString } from "../../utils/cashFormatter";
 
 type CashDisplayProps = {
 	title: string;
@@ -32,7 +32,7 @@ export const CashDisplay = ({ title, cash, display }: CashDisplayProps) => {
 			</button>
 		);
 
-		const cashFormattedValue = cashFormatter(cash);
+		const cashFormattedValue = cashToLocaleString(cash);
 
 		return (
 			<div className='my-6 w-[95%] md:w-[60%] justify-self-center self-center'>

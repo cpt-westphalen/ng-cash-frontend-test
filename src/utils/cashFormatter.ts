@@ -1,4 +1,17 @@
-export const cashFormatter = (cash: number) => {
+export const cashToLocaleString = (cash: number) => {
+	try {
+		const value = cash / 100;
+		let result = value.toLocaleString("pt-br", {
+			currency: "BRL",
+			minimumFractionDigits: 2,
+		});
+		return result;
+	} catch (error) {
+		return cashFormatter(cash);
+	}
+};
+
+const cashFormatter = (cash: number) => {
 	let formattedString = "";
 
 	const isNegative = cash < 0 ? true : false;
