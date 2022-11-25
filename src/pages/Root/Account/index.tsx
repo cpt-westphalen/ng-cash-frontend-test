@@ -1,12 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-import {
-	AccountType,
-	AuthContext,
-	AuthDispatch,
-	UserType,
-} from "../../../contexts/AuthContext";
+import { AuthContext, AuthDispatch } from "../../../contexts/AuthContext";
+import { AccountType, UserType } from "../../../mocks/users";
 import { AuthAction } from "../../../contexts/authReducer";
 
 import { getAccount } from "../../../api/account";
@@ -105,12 +101,13 @@ export const Account = () => {
 					<nav>
 						<ul className='py-6 flex flex-col justify-center items-center gap-3'>
 							<li>
-								<Button
-									type='fancy'
-									className='hover:scale-105 transition
-								'>
-									Transferir
-								</Button>
+								<Link to='/transfer'>
+									<Button
+										type='fancy'
+										className='hover:scale-105 transition'>
+										Transferir
+									</Button>
+								</Link>
 							</li>
 							<li>
 								<Button

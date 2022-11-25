@@ -41,7 +41,7 @@ export const generateToken = () => {
 export function addUser(data: { username: string; password: string }) {
 	const newUser = {
 		id: Math.floor(Math.random() * 10000).toString(),
-		username: data.username,
+		username: data.username.toLowerCase(),
 		password: data.password,
 		accessToken: generateToken(),
 		account: {
@@ -55,6 +55,7 @@ export function addUser(data: { username: string; password: string }) {
 }
 
 export function login(credentials: { username: string; password: string }) {
+	credentials.username = credentials.username.toLowerCase();
 	const user = users.find(
 		(user) =>
 			user.username === credentials.username &&
@@ -79,5 +80,6 @@ export function findUserByAccount(accountId: string) {
 }
 
 export function findUserByUsername(username: string) {
+	username = username.toLowerCase();
 	return users.find((user) => user.username === username);
 }

@@ -4,7 +4,10 @@ import { addUser, findUserByUsername, findUserByAccount, login } from "./users";
 
 export const handlers = [
 	rest.post("/api/register", async (req, res, ctx) => {
-		const data: { username: string; password: string } = await req.json();
+		const data = (await req.json()) as {
+			username: string;
+			password: string;
+		};
 		const isTaken = findUserByUsername(data.username);
 		if (isTaken) {
 			return res(
