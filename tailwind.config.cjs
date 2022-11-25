@@ -24,6 +24,11 @@ module.exports = {
 				DEFAULT: "8px",
 				lg: "12px",
 				xl: "32px",
+				round: "50%",
+			},
+			animation: {
+				"spin-flow":
+					"spin 1s cubic-bezier(0.3, 0.6, 0.2, 0.7) infinite",
 			},
 		},
 	},

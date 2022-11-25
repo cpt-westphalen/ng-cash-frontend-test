@@ -16,3 +16,7 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
+.spinner {
+	@apply w-20 h-20 border-[8px] border-solid border-b-white rounded-round block animate-spin-flow border-[rgba(0,0,0,0.6)];
+}

@@ -13,6 +13,7 @@ import { CashDisplay } from "../../../components/CashDisplay";
 import { CashHistory } from "../../../components/CashHistory";
 
 import { MdOutlineClose } from "react-icons/md";
+import { LoadingSpinner } from "../../../components/LoadingSpinner";
 
 export const Account = () => {
 	const navigate = useNavigate();
@@ -131,6 +132,7 @@ export const Account = () => {
 						appElement: body,
 					}}
 				/>
+				<LoadingSpinner />
 			</div>
 		);
 	else {
