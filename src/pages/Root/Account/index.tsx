@@ -22,7 +22,7 @@ export const Account = () => {
 	const authDispatch = useContext(AuthDispatch) as React.Dispatch<AuthAction>;
 
 	const [showCash, setShowCash] = useState(false);
-	const [logoutModalIsOpen, setLogoutModalIsOpen] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const body = document.querySelector("#root");
 
@@ -71,7 +71,7 @@ export const Account = () => {
 	}, []);
 
 	const handleModalClose = () => {
-		setLogoutModalIsOpen(false);
+		setIsModalOpen(false);
 	};
 
 	if (user && user.account.balance !== undefined)
@@ -81,7 +81,7 @@ export const Account = () => {
 					aria-label='Sair da conta'
 					className='absolute flex gap-2 items-center top-0 right-0 m-3 px-2 py-1 rounded group'
 					onClick={() => {
-						setLogoutModalIsOpen(true);
+						setIsModalOpen(true);
 					}}>
 					<p
 						aria-hidden
@@ -126,16 +126,15 @@ export const Account = () => {
 				<Modal
 					type='logout'
 					props={{
-						isOpen: logoutModalIsOpen,
+						isOpen: isModalOpen,
 						preventScroll: true,
 						onRequestClose: handleModalClose,
 						appElement: body,
 					}}
 				/>
-				<LoadingSpinner />
 			</div>
 		);
 	else {
-		return <div>Loading...</div>;
+		return <LoadingSpinner />;
 	}
 };
