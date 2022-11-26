@@ -48,8 +48,15 @@ export const Login = () => {
 			.then((res) => {
 				if (authDispatch)
 					authDispatch({ type: "login", payload: res.data });
-				setIsModalOpen(true);
-				setTimeout(() => navigate("/"), 4000);
+				setModalMessage((prev) => {
+					setIsModalOpen(true);
+					return {
+						title: "Sucesso!",
+						desc: "Seu login foi realizado, redirecionando...",
+						button: "Ok!",
+					};
+				});
+				setTimeout(() => navigate("/"), 2000);
 			})
 			.catch((error) => {
 				setModalMessage((state) => {

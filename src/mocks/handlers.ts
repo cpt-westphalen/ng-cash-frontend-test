@@ -64,7 +64,7 @@ export const handlers = [
 						amount: number;
 					};
 					if (payload) {
-						if (payload.amount < user.account.balance) {
+						if (payload.amount > user.account.balance) {
 							return res(
 								ctx.status(409, "Não há saldo suficiente")
 							);

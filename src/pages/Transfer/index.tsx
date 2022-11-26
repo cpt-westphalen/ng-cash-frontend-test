@@ -15,6 +15,7 @@ import { UserType } from "../../mocks/users";
 import { AuthAction } from "../../contexts/authReducer";
 import { cashToLocaleString } from "../../utils/cashFormatter";
 import { Button } from "../../components/Button";
+import { transfer } from "../../api/transfer";
 
 type TransferFromTypes = {
 	to: string;
@@ -42,7 +43,7 @@ export const Transfer = () => {
 		},
 	});
 
-	const body = document.querySelector("#root");
+	const body = document.querySelector("#root"); //for modal
 
 	useEffect(() => {
 		if (!user.accessToken) navigate("/");
@@ -82,17 +83,29 @@ export const Transfer = () => {
 		});
 	};
 
-	const handleSubmit = (event: FormEvent) => {
-		event.preventDefault();
-		if (amountToTransfer > 0) console.log(amountToTransfer);
-	};
-
 	const handleChangeTo = (event: ChangeEvent<HTMLInputElement>) => {
-		let value = event.target.value.trim().replace(/[^a-zA-Z0-9_]+/gi, ""); // fix this!!
+		let value = event.target.value.trim().replace(/[^a-zA-Z0-9_]+/gi, "");
 		setWhoToTransfer((prev) => {
 			if (usernameRef.current) usernameRef.current.value = value;
 			return value;
 		});
+	};
+
+	const handleSubmit = (event: FormEvent) => {
+		event.preventDefault();
+		if (amountToTransfer > 0 && whoToTransfer) {
+			transfer({
+				from: user,
+				to: whoToTransfer,
+				amount: amountToTransfer,
+			})
+				.then((res) => {
+					console.log(res.data);
+				})
+				.catch((e) => {
+					console.warn(e);
+				});
+		}
 	};
 
 	return (
@@ -165,7 +178,7 @@ export const Transfer = () => {
 							</div>
 						</div>
 						<div className='fixed bottom-[10%]'>
-							<Button type='fancy'>Enviar!</Button>
+							<Button type='fancy'>{"Enviar!"}</Button>
 						</div>
 					</form>
 				</div>

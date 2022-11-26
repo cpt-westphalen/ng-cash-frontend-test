@@ -30,7 +30,10 @@ export function createPayment(
 		amount,
 		created_at: new Date().toISOString(),
 	};
+	from.account.balance -= amount;
+	to.account.balance += amount;
 	from.transfers.push(transfer.uuid);
 	to.transfers.push(transfer.uuid);
 	transfers.push(transfer);
+	console.log(transfers);
 }

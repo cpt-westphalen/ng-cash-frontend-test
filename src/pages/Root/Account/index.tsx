@@ -111,13 +111,6 @@ export const Account = () => {
 								</Link>
 							</li>
 							<li>
-								<Button
-									type='fancy'
-									className='hover:scale-105 transition'>
-									Receber
-								</Button>
-							</li>
-							<li>
 								<CashHistory />
 							</li>
 						</ul>

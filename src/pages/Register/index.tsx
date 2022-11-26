@@ -54,7 +54,7 @@ export const Register = () => {
 				});
 				sessionStorage.setItem("user", res.data);
 				setIsModalOpen(true);
-				setTimeout(() => navigate("/"), 4000);
+				setTimeout(() => navigate("/"), 2000);
 			})
 			.catch((error) => {
 				setModalMessage((state) => {
