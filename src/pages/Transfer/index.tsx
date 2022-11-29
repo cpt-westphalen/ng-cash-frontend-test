@@ -223,93 +223,93 @@ export const Transfer = () => {
 	};
 
 	return (
-		<div className='min-h-screen flex flex-col justify-center items-center'>
+		<div className='w-full min-h-screen relative md:bg-ng md:bg-cover'>
 			<Link
 				to='/'
 				className='fixed top-6 left-2 rounded hover:scale-105 hover:-translate-x-1 transition '>
 				<GoChevronLeft size={32} />
 			</Link>
-			<div className='pt-[30%] h-screen w-full flex flex-row flex-wrap justify-center md:justify-between items-stretch md:items-center'>
-				<div className='flex justify-center w-full'>
-					<h2 className='w-[70%] text-3xl font-semibold'>
-						Bora transferir: {/* fix layout */}
+			<div className='flex flex-row flex-wrap p-12 md:justify-center md:items-center md:min-h-screen max-w-[1440px]'>
+				<div className='flex flex-col flex-grow gap-4 sm:min-w-[24rem] md:p-12 mt-[12vh] mb-[10vh] md:mt-0 md:mb-0'>
+					<h2 className='text-3xl md:text-5xl font-bold'>
+						Bora transferir:
 					</h2>
-				</div>
-				<div className='flex flex-1 flex-col gap-4 justify-start items-stretch mb-[30%] md:mb-0 md:w-[50%]'>
-					<div className='flex flex-col pb-8 w-80 md:w-full self-center'>
+					<div>
 						<CashDisplay
+							className='w-full'
 							title='Saldo restante'
 							cash={user.account.balance - amountToTransfer}
 							display={{ hide: !showCash, toggle: setShowCash }}
 						/>
 					</div>
-					<form
-						onSubmit={handleSubmit}
-						className={"flex flex-col justify-center items-center"}>
-						<div className='flex flex-row flex-wrap gap-4 justify-center items-center mb-12'>
-							<div className='flex flex-col gap-2'>
-								<label
-									className='text-2xl font-semibold'
-									htmlFor='username'>
-									Para quem?
-								</label>
-								<div className='relative'>
-									<input
-										ref={usernameRef}
-										id='username'
-										name='username'
-										type='text'
-										onChange={handleChangeTo}
-										className={`h-11 w-72 pl-12 pr-2 text-2xl placeholder:text-gray rounded-lg border-2 border-dashed bg-secondary ${
-											errors.hasAny &&
-											errors.active.target == "username"
-												? "border-red text-red"
-												: "border-primary"
-										}`}
-									/>
-									<span className='absolute left-4 text-2xl font-bold top-1'>
-										@
-									</span>
-								</div>
-							</div>
-							<div className='flex flex-col gap-2'>
-								<label
-									className='text-2xl font-semibold'
-									htmlFor='amount'>
-									Quanto?
-								</label>
-								<div>
-									<input
-										id='amount'
-										onChange={handleChangeAmount}
-										name='amount'
-										ref={amountRef}
-										type='text'
-										placeholder='R$ 100,00'
-										className={`h-11 w-72 text-center text-2xl font-semibold placeholder:text-gray placeholder:font-normal rounded-lg border-2 border-dashed ${
-											errors.hasAny &&
-											errors.active.target === "amount"
-												? "border-red"
-												: "border-primary"
-										} bg-secondary`}
-									/>
-								</div>
-							</div>
-						</div>
-						<div className='fixed bottom-[10%]'>
-							<Button type='fancy'>
-								{errors.hasAny &&
-								errors.active.target == "username"
-									? "Ops!"
-									: formStatus == "isSure?"
-									? "Certeza?"
-									: formStatus == "sent"
-									? "Enviado!"
-									: "Enviar!"}
-							</Button>
-						</div>
-					</form>
 				</div>
+
+				<form
+					onSubmit={handleSubmit}
+					className={
+						"flex flex-col flex-grow md:max-w-md justify-center items-center gap-4 mb-[15%] md:mb-0 py-6 md:p-8 md:mx-12 md:bg-black md:border md:border-primary md:rounded-md"
+					}>
+					<div className='flex flex-col gap-2'>
+						<label
+							className='text-2xl font-semibold'
+							htmlFor='username'>
+							Para quem?
+						</label>
+						<div className='relative'>
+							<input
+								ref={usernameRef}
+								id='username'
+								name='username'
+								type='text'
+								onChange={handleChangeTo}
+								className={`h-11 w-72 pl-12 pr-2 text-2xl placeholder:text-gray rounded-md border-2 border-dashed bg-secondary ${
+									errors.hasAny &&
+									errors.active.target == "username"
+										? "border-red text-red"
+										: "border-primary"
+								}`}
+							/>
+							<span className='absolute left-4 text-2xl font-bold top-1'>
+								@
+							</span>
+						</div>
+					</div>
+					<div className='flex flex-col gap-2'>
+						<label
+							className='text-2xl font-semibold'
+							htmlFor='amount'>
+							Quanto?
+						</label>
+						<div>
+							<input
+								id='amount'
+								onChange={handleChangeAmount}
+								name='amount'
+								ref={amountRef}
+								type='text'
+								placeholder='R$ 100,00'
+								className={`h-11 w-72 text-center text-2xl font-semibold placeholder:text-gray placeholder:font-normal rounded-md border-2 border-dashed ${
+									errors.hasAny &&
+									errors.active.target === "amount"
+										? "border-red"
+										: "border-primary"
+								} bg-secondary`}
+							/>
+						</div>
+					</div>
+
+					<div className='absolute left-0 bottom-[10%] right-0 flex justify-center md:relative md:bottom-0 md:mt-3'>
+						<Button type='fancy'>
+							{errors.hasAny && errors.active.target == "username"
+								? "Ops!"
+								: formStatus == "isSure?"
+								? "Certeza?"
+								: formStatus == "sent"
+								? "Enviado!"
+								: "Enviar!"}
+						</Button>
+					</div>
+				</form>
 			</div>
 			<Modal
 				type='message'

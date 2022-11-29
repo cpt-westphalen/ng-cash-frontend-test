@@ -9,9 +9,15 @@ type CashDisplayProps = {
 		hide: boolean;
 		toggle: (callback: (s: boolean) => boolean) => void;
 	};
+	className?: string;
 };
 
-export const CashDisplay = ({ title, cash, display }: CashDisplayProps) => {
+export const CashDisplay = ({
+	title,
+	cash,
+	display,
+	className,
+}: CashDisplayProps) => {
 	function handleDisplayToggle() {
 		display.toggle((prevState) => !prevState);
 	}
@@ -35,7 +41,11 @@ export const CashDisplay = ({ title, cash, display }: CashDisplayProps) => {
 		const cashFormattedValue = cashToLocaleString(cash);
 
 		return (
-			<div className='my-6 w-[95%] md:w-[60%] justify-self-center self-center'>
+			<div
+				className={
+					"my-6 w-[95%] md:w-[60%] justify-self-center self-center " +
+					className
+				}>
 				<div className='flex flex-row'>
 					<h1
 						id='title'
