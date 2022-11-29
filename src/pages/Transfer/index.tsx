@@ -183,7 +183,7 @@ export const Transfer = () => {
 							message: {
 								title: "Sucesso!",
 								desc: `O dinheiro foi enviado para ${whoToTransfer}`,
-								button: "ok!",
+								button: "Ok!",
 							},
 						});
 					})
