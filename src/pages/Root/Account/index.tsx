@@ -64,7 +64,7 @@ export const Account = () => {
 			<div className='min-h-screen max-w-4xl mx-auto px-12 pt-10 lg:pt-24 flex flex-col justify-center'>
 				<button
 					aria-label='Sair da conta'
-					className='absolute flex gap-2 items-center top-0 right-0 m-3 px-2 py-1 rounded group'
+					className='absolute flex gap-2 items-center top-0 right-0 m-3 px-2 py-1 max-w-fit bg-black rounded group'
 					onClick={() => {
 						setIsModalOpen(true);
 					}}>
@@ -75,11 +75,13 @@ export const Account = () => {
 					</p>
 					<MdOutlineClose size={20} />
 				</button>
-				<h2 className='mt-16 mb-4 flex-grow text-3xl font-semibold whitespace-pre-wrap'>
-					{`eae, \n@${user.username}`}
+				<h2 className='mt-[10vh] flex-grow text-3xl md:text-5xl md:font-bold font-semibold whitespace-pre-wrap md:leading-normal leading-snug'>
+					eae,{" \n"}
+					<span className='bg-primary text-secondary text-4xl md:text-5xl'>{`@${user.username}`}</span>
 				</h2>
 				<div className='flex-1 flex flex-col pb-16'>
 					<CashDisplay
+						className='md:py-12 md:px-8 md:rounded-lg md:border-b md:border-zinc-900 md:bg-black'
 						title='Saldo atual'
 						cash={user.account.balance}
 						display={{ hide: !showCash, toggle: setShowCash }}

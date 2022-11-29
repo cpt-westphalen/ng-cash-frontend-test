@@ -6,7 +6,11 @@ import { Account } from "./Account";
 function Root() {
 	const user = useContext(AuthContext);
 
-	return <>{user?.accessToken ? <Account /> : <Home />}</>;
+	return (
+		<div className='md:bg-ng md:bg-cover'>
+			{user?.accessToken ? <Account /> : <Home />}
+		</div>
+	);
 }
 
 export default Root;
