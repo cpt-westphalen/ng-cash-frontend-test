@@ -1,5 +1,4 @@
 import axios from "axios";
-import { APITransfer } from "../mocks/transfers";
 import { UserType } from "../mocks/users";
 
 type TransferProps = {
@@ -9,7 +8,7 @@ type TransferProps = {
 };
 
 export const transfer = ({ from, to, amount }: TransferProps) => {
-	if (from.accessToken && to && amount > 0) {
+	if (to && amount > 0 && from.accessToken && from.username !== to) {
 		const data = { from: from.account.id, to, amount };
 		return axios.post(`/api/${from.account.id}/cashout`, data, {
 			headers: { Authorization: from.accessToken },

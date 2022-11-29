@@ -50,13 +50,13 @@ export const Login = () => {
 					authDispatch({ type: "login", payload: res.data });
 				setModalMessage((prev) => {
 					setIsModalOpen(true);
+					setTimeout(() => navigate("/"), 2000);
 					return {
 						title: "Sucesso!",
 						desc: "Seu login foi realizado, redirecionando...",
 						button: "Ok!",
 					};
 				});
-				setTimeout(() => navigate("/"), 2000);
 			})
 			.catch((error) => {
 				setModalMessage((state) => {
@@ -128,18 +128,16 @@ export const Login = () => {
 					<Button type='fancy'>ENTRAR</Button>
 				</form>
 			</div>
-			{isModalOpen && (
-				<Modal
-					type='message'
-					message={modalMessage}
-					props={{
-						isOpen: isModalOpen,
-						preventScroll: true,
-						onRequestClose: handleModalClose,
-						appElement: body,
-					}}
-				/>
-			)}
+			<Modal
+				type='message'
+				message={modalMessage}
+				props={{
+					isOpen: isModalOpen,
+					preventScroll: true,
+					onRequestClose: handleModalClose,
+					appElement: body,
+				}}
+			/>
 		</div>
 	);
 };

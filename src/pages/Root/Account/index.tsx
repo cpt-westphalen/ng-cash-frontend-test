@@ -5,7 +5,7 @@ import { AuthContext, AuthDispatch } from "../../../contexts/AuthContext";
 import { AccountType, UserType } from "../../../mocks/users";
 import { AuthAction } from "../../../contexts/authReducer";
 
-import { getAccount } from "../../../api/account";
+import { checkUserBalance } from "../../../api/account";
 
 import { Modal } from "../../../components/Modal";
 import { Button } from "../../../components/Button";
@@ -34,36 +34,21 @@ export const Account = () => {
 					message: "Ops, ocorreu um problema. Por favor, faça login.",
 				},
 			});
-			navigate("/login");
+			setTimeout(() => navigate("/login"), 1000);
 		};
 
-		const checkUserBalance = async () => {
-			if (!user || !user.accessToken) redirectToLogin();
-
-			const {
-				accessToken,
-				account: { id },
-			} = user;
-			const targetCredentials = {
-				accessToken,
-				account: { id },
-			};
-
-			getAccount(targetCredentials)
-				.then((account: AccountType) => {
-					console.log(account.id, account.balance);
-					authDispatch({ type: "update_balance", payload: account });
-				})
-				.catch((error) => {
-					authDispatch({
-						type: "logout",
-						payload: { message: "Ocorreu um erro. Faça login." },
-					});
-				});
+		const updateUserBalanceCallback = (account: AccountType) => {
+			authDispatch({
+				type: "update_balance",
+				payload: account,
+			});
 		};
 
-		checkUserBalance();
-		const intervalHandle = setInterval(checkUserBalance, 10000);
+		checkUserBalance(user, updateUserBalanceCallback, redirectToLogin);
+
+		const intervalHandle = setInterval(() => {
+			checkUserBalance(user, updateUserBalanceCallback, redirectToLogin);
+		}, 10000);
 
 		return () => {
 			clearInterval(intervalHandle);

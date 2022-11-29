@@ -2,24 +2,30 @@ import { Link, useNavigate } from "react-router-dom";
 import {
 	ChangeEvent,
 	FormEvent,
+	useCallback,
 	useContext,
 	useEffect,
-	useMemo,
 	useRef,
 	useState,
 } from "react";
 import { AuthContext, AuthDispatch } from "../../contexts/AuthContext";
 import { GoChevronLeft } from "react-icons/go";
 import { CashDisplay } from "../../components/CashDisplay";
-import { UserType } from "../../mocks/users";
+import { AccountType, UserType } from "../../mocks/users";
 import { AuthAction } from "../../contexts/authReducer";
 import { cashToLocaleString } from "../../utils/cashFormatter";
 import { Button } from "../../components/Button";
 import { transfer } from "../../api/transfer";
+import { AxiosError } from "axios";
+import { Modal } from "../../components/Modal";
+import { checkUserBalance } from "../../api/account";
 
-type TransferFromTypes = {
-	to: string;
-	amount: number;
+const emptyError = {
+	hasAny: false,
+	active: {
+		target: "",
+		message: "",
+	},
 };
 
 export const Transfer = () => {
@@ -29,27 +35,75 @@ export const Transfer = () => {
 	const authDispatch = useContext(AuthDispatch) as React.Dispatch<AuthAction>;
 
 	const [showCash, setShowCash] = useState(false);
-	const [isModalOpen, setIsModalOpen] = useState(false);
-
-	const [whoToTransfer, setWhoToTransfer] = useState("");
-	const [amountToTransfer, setAmountToTransfer] = useState(0);
-	const amountRef = useRef<HTMLInputElement>(null);
-	const usernameRef = useRef<HTMLInputElement>(null);
-	const [errors, setErrors] = useState({
-		hasAny: false,
-		active: {
-			target: "",
-			message: "",
+	const [modal, setModal] = useState({
+		open: false,
+		message: {
+			title: "Ops, ocorreu um erro",
+			desc: "Tente novamente mais tarde.",
+			button: "Ok!",
 		},
 	});
 
+	const [whoToTransfer, setWhoToTransfer] = useState("");
+	const [amountToTransfer, setAmountToTransfer] = useState(0);
+	const [formStatus, setFormStatus] = useState("waiting");
+
+	const amountRef = useRef<HTMLInputElement>(null);
+	const usernameRef = useRef<HTMLInputElement>(null);
+
+	const [errors, setErrors] = useState(emptyError);
+
 	const body = document.querySelector("#root"); //for modal
+
+	const handleRefresh = () => {
+		const updateUserBalanceCallback = (account: AccountType) => {
+			if (account.balance == 0) {
+				setAmountToTransfer(0);
+				if (amountRef.current) amountRef.current.value = "0";
+			}
+			authDispatch({
+				type: "update_balance",
+				payload: account,
+			});
+		};
+
+		const redirectToLogin = () => {
+			authDispatch({
+				type: "logout",
+				payload: {
+					message: "Ops, ocorreu um problema. Por favor, faça login.",
+				},
+			});
+			setTimeout(() => navigate("/login"), 1000);
+		};
+
+		checkUserBalance(user, updateUserBalanceCallback, redirectToLogin);
+	};
 
 	useEffect(() => {
 		if (!user.accessToken) navigate("/");
+
+		const intervalHandle = setInterval(handleRefresh, 10000);
+
+		return () => {
+			clearInterval(intervalHandle);
+		};
 	}, []);
 
+	useEffect(() => {
+		if (formStatus == "sent") {
+			setWhoToTransfer("");
+			setAmountToTransfer(0);
+			if (amountRef.current && usernameRef.current) {
+				amountRef.current.value = "";
+				usernameRef.current.value = "";
+			}
+		}
+	}, [formStatus]);
+
 	const handleChangeAmount = (event: ChangeEvent<HTMLInputElement>) => {
+		if (formStatus == "isSure?" || formStatus == "sent")
+			setFormStatus("waiting");
 		let value = event.target.value.replace(/\D/gi, "");
 		if (Number.isNaN(parseInt(value))) value = "0";
 		const cash = parseInt(value);
@@ -84,6 +138,8 @@ export const Transfer = () => {
 	};
 
 	const handleChangeTo = (event: ChangeEvent<HTMLInputElement>) => {
+		if (formStatus == "isSure?" || formStatus == "sent")
+			setFormStatus("waiting");
 		let value = event.target.value.trim().replace(/[^a-zA-Z0-9_]+/gi, "");
 		setWhoToTransfer((prev) => {
 			if (usernameRef.current) usernameRef.current.value = value;
@@ -93,19 +149,77 @@ export const Transfer = () => {
 
 	const handleSubmit = (event: FormEvent) => {
 		event.preventDefault();
-		if (amountToTransfer > 0 && whoToTransfer) {
-			transfer({
-				from: user,
-				to: whoToTransfer,
-				amount: amountToTransfer,
-			})
-				.then((res) => {
-					console.log(res.data);
-				})
-				.catch((e) => {
-					console.warn(e);
+		if (
+			formStatus !== "isSure?" &&
+			amountToTransfer > 0 &&
+			user.account.balance > 0
+		) {
+			if (whoToTransfer == user.username) {
+				setErrors(() => {
+					setTimeout(() => setErrors(emptyError), 1000);
+					return {
+						hasAny: true,
+						active: {
+							target: "username",
+							message: "Não é possível transferir para si mesmo.",
+						},
+					};
 				});
+				return;
+			}
+			setFormStatus("isSure?");
+			return;
+		} else if (formStatus == "isSure?") {
+			if (amountToTransfer > 0 && whoToTransfer) {
+				transfer({
+					from: user,
+					to: whoToTransfer,
+					amount: amountToTransfer,
+				})
+					.then(() => {
+						setFormStatus("sent");
+						setModal({
+							open: true,
+							message: {
+								title: "Sucesso!",
+								desc: `O dinheiro foi enviado para ${whoToTransfer}`,
+								button: "ok!",
+							},
+						});
+					})
+					.catch((e: AxiosError) => {
+						if (e.response) {
+							if (
+								e.response.status == 409 ||
+								e.response.status == 403
+							) {
+								authDispatch({
+									type: "logout",
+									payload: "Unauthorized token for transfer",
+								});
+							} else if (e.response.status == 404) {
+								setErrors(() => {
+									setTimeout(
+										() => setErrors(emptyError),
+										1000
+									);
+									return {
+										hasAny: true,
+										active: {
+											target: "username",
+											message: "Usuário não encontrado.",
+										},
+									};
+								});
+							}
+						}
+					});
+			}
 		}
+	};
+
+	const handleModalClose = () => {
+		if (modal.open) setModal((prev) => ({ ...prev, open: false }));
 	};
 
 	return (
@@ -146,7 +260,12 @@ export const Transfer = () => {
 										name='username'
 										type='text'
 										onChange={handleChangeTo}
-										className='h-11 w-72 pl-12 pr-2 text-2xl placeholder:text-gray rounded-lg border-2 border-dashed border-primary bg-secondary'
+										className={`h-11 w-72 pl-12 pr-2 text-2xl placeholder:text-gray rounded-lg border-2 border-dashed bg-secondary ${
+											errors.hasAny &&
+											errors.active.target == "username"
+												? "border-red text-red"
+												: "border-primary"
+										}`}
 									/>
 									<span className='absolute left-4 text-2xl font-bold top-1'>
 										@
@@ -178,11 +297,30 @@ export const Transfer = () => {
 							</div>
 						</div>
 						<div className='fixed bottom-[10%]'>
-							<Button type='fancy'>{"Enviar!"}</Button>
+							<Button type='fancy'>
+								{errors.hasAny &&
+								errors.active.target == "username"
+									? "Ops!"
+									: formStatus == "isSure?"
+									? "Certeza?"
+									: formStatus == "sent"
+									? "Enviado!"
+									: "Enviar!"}
+							</Button>
 						</div>
 					</form>
 				</div>
 			</div>
+			<Modal
+				type='message'
+				message={modal.message}
+				props={{
+					isOpen: modal.open,
+					preventScroll: true,
+					onRequestClose: handleModalClose,
+					appElement: body,
+				}}
+			/>
 		</div>
 	);
 };

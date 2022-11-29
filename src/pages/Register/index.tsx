@@ -23,12 +23,15 @@ export const Register = () => {
 	const auth = useContext(AuthContext);
 	const authDispatch = useContext(AuthDispatch) as React.Dispatch<AuthAction>;
 
-	const [modalMessage, setModalMessage] = useState({
-		title: "Feito!",
-		desc: "Conta cadastrada com sucesso. Redirecionando...",
-		button: "Ok!",
+	const [modal, setModal] = useState({
+		open: false,
+		message: {
+			title: "Ops!",
+			desc: "Ocorreu algum erro inesperado",
+			button: "Tá (?)",
+		},
 	});
-	const [isModalOpen, setIsModalOpen] = useState(false);
+
 	const body = document.querySelector("#root");
 
 	useEffect(() => {
@@ -36,7 +39,7 @@ export const Register = () => {
 	}, []);
 
 	const handleModalClose = () => {
-		setIsModalOpen(false);
+		if (modal.open) setModal((prev) => ({ ...prev, open: false }));
 	};
 
 	const {
@@ -53,18 +56,26 @@ export const Register = () => {
 					payload: { status: res.status, data: res.data },
 				});
 				sessionStorage.setItem("user", res.data);
-				setIsModalOpen(true);
+				if (!modal.open)
+					setModal((prev) => ({
+						open: true,
+						message: {
+							title: "Feito!",
+							desc: "Conta cadastrada com sucesso. Redirecionando...",
+							button: "Ok!",
+						},
+					}));
 				setTimeout(() => navigate("/"), 2000);
 			})
 			.catch((error) => {
-				setModalMessage((state) => {
-					setIsModalOpen(true);
-					return {
+				setModal((prev) => ({
+					open: true,
+					message: {
 						title: "Ops!",
 						desc: "Esse nome de usuário já foi usado antes.",
 						button: "Revisar",
-					};
-				});
+					},
+				}));
 			});
 	};
 
@@ -146,18 +157,16 @@ export const Register = () => {
 					<Button type='fancy'>CRIAR</Button>
 				</form>
 			</div>
-			{isModalOpen && (
-				<Modal
-					type='message'
-					message={modalMessage}
-					props={{
-						isOpen: isModalOpen,
-						preventScroll: true,
-						onRequestClose: handleModalClose,
-						appElement: body,
-					}}
-				/>
-			)}
+			<Modal
+				type='message'
+				message={modal.message}
+				props={{
+					isOpen: modal.open,
+					preventScroll: true,
+					onRequestClose: handleModalClose,
+					appElement: body,
+				}}
+			/>
 		</>
 	);
 };

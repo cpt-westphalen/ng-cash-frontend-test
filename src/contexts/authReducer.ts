@@ -23,6 +23,7 @@ export const authReducer: Reducer<UserType, AuthAction> = (auth, action) => {
 			return { ...auth, ...action.payload };
 		}
 		case "logout": {
+			console.log("logout was called");
 			localLogout();
 			return initialAuth;
 		}

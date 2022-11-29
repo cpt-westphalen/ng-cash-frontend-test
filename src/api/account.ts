@@ -1,4 +1,5 @@
 import axios from "axios";
+import { AccountType, UserType } from "../mocks/users";
 
 export const getAccount = (credentials: {
 	accessToken: string;
@@ -16,4 +17,28 @@ export const getAccount = (credentials: {
 				err.status + ", não foi possível receber os dados."
 			);
 		});
+};
+
+export const checkUserBalance = async (
+	user: UserType,
+	onSuccessCallback: (account: AccountType) => void,
+	onErrorCallback: () => void
+) => {
+	if (!user || !user.accessToken) onErrorCallback();
+
+	const {
+		accessToken,
+		account: { id },
+	} = user;
+	const targetCredentials = {
+		accessToken,
+		account: { id },
+	};
+
+	try {
+		const account = await getAccount(targetCredentials);
+		onSuccessCallback(account);
+	} catch (error) {
+		onErrorCallback();
+	}
 };

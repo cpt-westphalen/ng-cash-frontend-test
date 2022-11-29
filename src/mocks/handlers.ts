@@ -70,7 +70,7 @@ export const handlers = [
 							);
 						}
 						const target = findUserByUsername(payload.to);
-						if (target) {
+						if (target && target.account.id !== user.account.id) {
 							createPayment(user, target, payload.amount);
 							return res(ctx.status(200));
 						} else {
