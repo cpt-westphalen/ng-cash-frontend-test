@@ -15,7 +15,7 @@ type TransactionTableProps = {
 export const TransactionTable = ({
 	filteredTransactions,
 }: TransactionTableProps) => {
-	const transactionsByMonth = useMemo(() => {
+	const splitTransactionsByMonth = useMemo(() => {
 		const months: string[] = [];
 		filteredTransactions.forEach((transaction) => {
 			const month = transaction[0].split("-")[1];
@@ -36,7 +36,7 @@ export const TransactionTable = ({
 			<div
 				id='mes'
 				className='flex flex-col gap-2'>
-				{transactionsByMonth.map((monthTransactions) => (
+				{splitTransactionsByMonth.map((monthTransactions) => (
 					<MonthTable
 						data={monthTransactions}
 						key={
