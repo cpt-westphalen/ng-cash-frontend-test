@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	font-family: "IBM Plex Sans", sans-serif;
+	font-size: 16px;
+	line-height: 24px;
+	font-weight: 400;
+
+	color-scheme: dark;
+	color: #fff;
+	background-color: #000;
+
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.spinner {
+	@apply w-20 h-20 border-[8px] border-solid border-b-white rounded-round block animate-spin-flow border-[rgba(0,0,0,0.6)];
+}
