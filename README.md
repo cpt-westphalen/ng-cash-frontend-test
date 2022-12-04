@@ -8,6 +8,7 @@ React / Node.js
 
 ## Features
 
+-   Design responsivo
 -   Registro de conta
 -   Login
 -   Logout
@@ -27,15 +28,17 @@ React / Node.js
 
         sudo docker run -it --rm -p 5173:5173 --name ng-frontend-dev ng-frontend:latest
 
+5.  Acesse [https://localhost:5173/](https://localhost:5173/) no navegador.
+
 ## Não implementado
 
 -   Backend e JWT
-    \*\* Mock Service Worker faz a simulação da API, e o JWT na verdade é um número aleatório, mas está fácil de integrar depois;
+    -   Mock Service Worker faz a simulação da API, e o JWT na verdade é um número aleatório, mas está fácil de integrar depois;
 
 ## Limitações pessoais para o teste
 
 -   Não conhecia Docker;
 -   Não sabia como funcionava o processo de autenticação com JWT;
 -   Pouquíssimo conhecimento em backend (nunca implementei server com db);
-    \*\* Para executar o frontend, optei por usar um Mock Service Worker para interceptar e lidar com os requests enquanto não tenho o backend;
+    -   Para executar o frontend, optei por usar um Mock Service Worker para interceptar e lidar com os requests enquanto não tenho o backend;
 -   Bônus: Positivei para Covid na semana que recebemos o teste técnico;
