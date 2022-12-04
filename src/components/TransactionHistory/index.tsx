@@ -163,7 +163,7 @@ export const TransactionHistory = ({ user }: { user: UserType }) => {
 	};
 
 	return (
-		<div className='flex flex-col gap-4 px-6 py-10 bg-primary text-secondary rounded-t max-h-screen'>
+		<div className='flex flex-col gap-4 px-6 py-10 bg-primary text-secondary rounded-t min-h-full max-h-screen'>
 			<div
 				id='filtros'
 				className='flex flex-col gap-4'>

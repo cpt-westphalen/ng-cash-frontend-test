@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { AuthContext, AuthDispatch } from "../../../contexts/AuthContext";
@@ -10,7 +10,7 @@ import { checkUserBalance } from "../../../services/account";
 import { Modal } from "../../../components/Modal";
 import { Button } from "../../../components/Button";
 import { CashDisplay } from "../../../components/CashDisplay";
-import { CashHistory } from "../../../components/CashHistory";
+import { CashHistoryButton } from "../../../components/CashHistory";
 
 import { MdOutlineClose } from "react-icons/md";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
@@ -23,6 +23,7 @@ export const Account = () => {
 	const authDispatch = useContext(AuthDispatch) as React.Dispatch<AuthAction>;
 
 	const [showCash, setShowCash] = useState(false);
+	const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const body = document.querySelector("#root");
@@ -60,6 +61,10 @@ export const Account = () => {
 		setIsModalOpen(false);
 	};
 
+	const handleHistoryClick = (event: React.MouseEvent) => {
+		setIsHistoryOpen((prev) => !prev);
+	};
+
 	if (user && user.account.balance !== undefined)
 		return (
 			<div className='min-h-screen max-w-4xl mx-auto px-12 pt-10 lg:pt-24 flex flex-col justify-center'>
@@ -87,22 +92,30 @@ export const Account = () => {
 						cash={user.account.balance}
 						display={{ hide: !showCash, toggle: setShowCash }}
 					/>
-					<nav>
-						<ul className='py-6 flex flex-col justify-center items-center gap-3'>
-							<li>
-								<Link to='/transfer'>
-									<Button
-										type='fancy'
-										className='hover:scale-105 transition'>
-										Transferir
-									</Button>
-								</Link>
-							</li>
-							<li>
-								<CashHistory />
-							</li>
-						</ul>
-					</nav>
+					<div className='py-6 flex flex-col justify-center items-center gap-3'>
+						<Link to='/transfer'>
+							<Button
+								type='fancy'
+								className='hover:scale-105 transition'>
+								Transferir
+							</Button>
+						</Link>
+						<div
+							className={
+								isHistoryOpen
+									? "flex flex-col absolute pt-4 top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.9)]"
+									: "fixed bottom-0 left-0 right-0"
+							}>
+							<CashHistoryButton onClick={handleHistoryClick} />
+							<div className='flex-1 max-w-7xl self-center'>
+								{isHistoryOpen && (
+									<TransactionHistory
+										user={user as UserType}
+									/>
+								)}
+							</div>
+						</div>
+					</div>
 				</div>
 				<Modal
 					type='logout'
@@ -113,7 +126,6 @@ export const Account = () => {
 						appElement: body,
 					}}
 				/>
-				<TransactionHistory user={user as UserType} />
 			</div>
 		);
 	else {
