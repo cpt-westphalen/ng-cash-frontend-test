@@ -16,7 +16,7 @@ export interface APIUserData extends UserType {
 	transfers: string[];
 }
 
-export const users: APIUserData[] = [
+export const usersDB: APIUserData[] = [
 	{
 		id: "0000",
 		username: "admin",
@@ -31,7 +31,7 @@ export const users: APIUserData[] = [
 ];
 
 export const logAllUsers = () => {
-	console.log(users);
+	console.log(usersDB);
 };
 
 export const generateToken = () => {
@@ -50,13 +50,13 @@ export function addUser(data: { username: string; password: string }) {
 		},
 		transfers: [],
 	};
-	users.push(newUser);
+	usersDB.push(newUser);
 	return newUser;
 }
 
 export function login(credentials: { username: string; password: string }) {
 	credentials.username = credentials.username.toLowerCase();
-	const user = users.find(
+	const user = usersDB.find(
 		(user) =>
 			user.username === credentials.username &&
 			user.password === credentials.password
@@ -76,10 +76,10 @@ export function login(credentials: { username: string; password: string }) {
 }
 
 export function findUserByAccount(accountId: string) {
-	return users.find((user) => user.account.id === accountId);
+	return usersDB.find((user) => user.account.id === accountId);
 }
 
 export function findUserByUsername(username: string) {
 	username = username.toLowerCase();
-	return users.find((user) => user.username === username);
+	return usersDB.find((user) => user.username === username);
 }

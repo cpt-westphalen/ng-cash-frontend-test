@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { UserType } from "../../mocks/userServices";
+import { getTransactionHistory } from "../../services/transfer";
 import { TransactionTable } from "./TransactionTable";
 
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
-const today = new Date();
+const today = () => new Date();
 
-const todayString = today
+const todayString = today()
 	.toLocaleDateString("pt-br")
 	.split("/")
 	.reverse()
@@ -17,48 +19,101 @@ type TransferDisplayFormat = [
 	amount: number
 ];
 
-const mockTransfers: TransferDisplayFormat[] = [
-	["2022-11-14 15:30:00", "in", "outro_user_21", 10000],
-	["2022-11-13 15:30:00", "out", "username25", 2000],
-	["2022-11-05 15:30:00", "out", "outro_user_maior_ainda", 1723],
-	["2022-11-01 16:35:34", "out", "outro_user_menor", 1723],
-	["2022-11-01 10:11:55", "in", "brotherzito99", 1239],
-	["2022-11-01 09:42:15", "out", "Padaria Marconi", 10000],
-	["2022-10-14 15:30:00", "in", "outro_user_21", 10000],
-	["2022-10-13 15:30:00", "out", "username25", 2000],
-	["2022-10-05 15:30:00", "out", "outro_user_maior_ainda", 1723],
-	["2022-09-01 16:35:34", "out", "outro_user_menor", 1723],
-	["2022-08-01 10:11:55", "in", "brotherzito99", 1239],
-	["2022-08-01 09:42:15", "out", "Padaria Marconi", 10000],
-	["2022-07-14 15:30:00", "in", "outro_user_21", 10000],
-	["2022-07-13 15:30:00", "out", "username25", 2000],
-	["2022-07-05 15:30:00", "out", "outro_user_maior_ainda", 1723],
-	["2022-07-01 16:35:34", "out", "outro_user_menor", 1723],
-	["2022-07-01 10:07:55", "in", "brotherzito99", 1239],
-	["2022-07-01 09:42:15", "out", "Padaria Marconi", 10000],
-	["2022-06-14 15:30:00", "in", "outro_user_21", 10000],
-	["2022-06-13 15:30:00", "out", "username25", 2000],
-	["2022-06-05 15:30:00", "out", "outro_user_maior_ainda", 1723],
-	["2022-06-01 16:35:34", "out", "outro_user_menor", 1723],
-	["2022-06-01 10:06:55", "in", "brotherzito99", 1239],
-	["2022-06-01 09:42:15", "out", "Padaria Marconi", 10000],
-];
+interface APITransfer {
+	uuid: string;
+	from: string;
+	to: string;
+	amount: number;
+	created_at: string;
+}
 
-const initialFilters = {
-	show: false,
-	cash: {
-		in: true,
-		out: true,
-	},
-	date: {
-		start: new Date(today.getTime() - DAY_IN_MS * 30),
-		end: today,
-	},
-};
+export const TransactionHistory = ({ user }: { user: UserType }) => {
+	const initialFilters = {
+		show: false,
+		cash: {
+			in: true,
+			out: true,
+		},
+		date: {
+			start: new Date(today().getTime() - DAY_IN_MS * 30),
+			end: today(),
+		},
+	};
 
-//responsible for fetching transaction data and applying filters to it
-export const TransactionHistory = () => {
+	const [transactions, setTransactions] = useState<APITransfer[]>([]);
 	const [filters, setFilters] = useState(initialFilters);
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		let isMounted = true;
+		getTransactionHistory(user)
+			.then((data) => {
+				if (isMounted && (data as APITransfer[])) {
+					setTransactions((prev) => {
+						setIsLoading(false);
+						return data;
+					});
+				}
+			})
+			.catch((error) => {
+				console.log("error with request for user history");
+				console.warn(error);
+			});
+		return () => {
+			isMounted = false;
+		};
+	}, []);
+
+	const filteredTransactions = useMemo(() => {
+		if (transactions) {
+			let filteredTransactions: APITransfer[] = [...transactions];
+			if (filters.cash.in == false)
+				filteredTransactions = filteredTransactions.filter(
+					(transaction) => transaction.to !== user.username
+				);
+
+			if (filters.cash.out == false)
+				filteredTransactions = filteredTransactions.filter(
+					(transactions) => transactions.from !== user.username
+				);
+
+			if (filters.date.start)
+				filteredTransactions = filteredTransactions.filter(
+					(transactions) =>
+						new Date(transactions["created_at"]).getTime() >
+						new Date(filters.date.start).getTime()
+				);
+
+			if (filters.date.end)
+				filteredTransactions = filteredTransactions.filter(
+					(transactions) =>
+						new Date(transactions["created_at"]).getTime() <
+						new Date(filters.date.end).getTime()
+				);
+
+			return filteredTransactions;
+		} else {
+			return [];
+		}
+	}, [transactions, filters, user.id]);
+
+	const transactionFormatter = (filteredTransactions: APITransfer[]) => {
+		const formattedTransactions = filteredTransactions.map(
+			({ amount, from, to, created_at }) => {
+				const date = created_at;
+				const type = from === user.username ? "out" : "in";
+				const username = from === user.username ? to : from;
+				const formattedTransaction: TransferDisplayFormat = [
+					date,
+					type,
+					username,
+					amount,
+				];
+				return formattedTransaction;
+			}
+		);
+		return formattedTransactions;
+	};
 
 	const toggleCashFilter = (type: "in" | "out") => {
 		if (type == "in") {
@@ -83,6 +138,7 @@ export const TransactionHistory = () => {
 		const value = event.target.valueAsDate;
 		const type = event.target.name as "start" | "end";
 		if (value !== null) setNewDate({ type, value });
+		else setNewDate({ type, value: new Date() });
 	};
 
 	const setNewDate = ({
@@ -179,7 +235,15 @@ export const TransactionHistory = () => {
 					</div>
 				)}
 			</div>
-			<TransactionTable filteredTransactions={mockTransfers} />
+			{isLoading ? (
+				"loading..."
+			) : (
+				<TransactionTable
+					filteredTransactions={transactionFormatter(
+						filteredTransactions
+					)}
+				/>
+			)}
 		</div>
 	);
 };

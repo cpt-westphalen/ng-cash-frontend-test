@@ -6,7 +6,7 @@ import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 
-import { loginToAccount, registerNewAccount } from "../../api/auth";
+import { registerNewAccount } from "../../services/auth";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext, AuthDispatch } from "../../contexts/AuthContext";
 import { AuthAction } from "../../contexts/authReducer";

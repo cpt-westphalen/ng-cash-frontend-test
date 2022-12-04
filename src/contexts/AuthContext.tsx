@@ -1,5 +1,5 @@
 import { createContext, useReducer } from "react";
-import { UserType } from "../mocks/users";
+import { UserType } from "../mocks/userServices";
 import { AuthAction, authReducer, initialAuth } from "./authReducer";
 
 type AuthContextType = {

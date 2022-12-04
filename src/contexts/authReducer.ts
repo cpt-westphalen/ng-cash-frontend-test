@@ -1,6 +1,6 @@
 import { Reducer } from "react";
-import { localLogout } from "../api/auth";
-import { UserType } from "../mocks/users";
+import { localLogout } from "../services/auth";
+import { UserType } from "../mocks/userServices";
 
 export type AuthAction = {
 	type: string;

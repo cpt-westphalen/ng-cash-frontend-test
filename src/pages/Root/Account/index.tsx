@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { AuthContext, AuthDispatch } from "../../../contexts/AuthContext";
-import { AccountType, UserType } from "../../../mocks/users";
+import { AccountType, UserType } from "../../../mocks/userServices";
 import { AuthAction } from "../../../contexts/authReducer";
 
-import { checkUserBalance } from "../../../api/account";
+import { checkUserBalance } from "../../../services/account";
 
 import { Modal } from "../../../components/Modal";
 import { Button } from "../../../components/Button";
@@ -14,6 +14,7 @@ import { CashHistory } from "../../../components/CashHistory";
 
 import { MdOutlineClose } from "react-icons/md";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
+import { TransactionHistory } from "../../../components/TransactionHistory";
 
 export const Account = () => {
 	const navigate = useNavigate();
@@ -112,6 +113,7 @@ export const Account = () => {
 						appElement: body,
 					}}
 				/>
+				<TransactionHistory user={user as UserType} />
 			</div>
 		);
 	else {

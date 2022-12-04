@@ -1,6 +1,11 @@
 import { rest } from "msw";
-import { createPayment } from "./transfers";
-import { addUser, findUserByUsername, findUserByAccount, login } from "./users";
+import { createPayment, getUserTransactionHistory } from "./transferServices";
+import {
+	addUser,
+	findUserByUsername,
+	findUserByAccount,
+	login,
+} from "./userServices";
 
 export const handlers = [
 	rest.post("/api/register", async (req, res, ctx) => {
@@ -39,10 +44,17 @@ export const handlers = [
 
 		if (target.accessToken === req.headers.get("authorization")) {
 			switch (data) {
-				case "cash":
+				case "cash": {
 					return res(ctx.json(target.account));
+				}
+				case "history": {
+					const history = await getUserTransactionHistory(
+						target.transfers
+					);
+					return res(ctx.json(history));
+				}
 				default:
-					return res(ctx.status(404));
+					return res(ctx.status(400));
 			}
 		} else {
 			return res(ctx.status(401));

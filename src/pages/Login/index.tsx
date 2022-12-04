@@ -5,7 +5,7 @@ import { Button } from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 
 import { SubmitHandler, useForm } from "react-hook-form";
-import { loginToAccount } from "../../api/auth";
+import { loginToAccount } from "../../services/auth";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext, AuthDispatch } from "../../contexts/AuthContext";
 import { Modal } from "../../components/Modal";

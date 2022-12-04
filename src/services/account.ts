@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AccountType, UserType } from "../mocks/users";
+import { AccountType, UserType } from "../mocks/userServices";
 
 export const getAccount = (credentials: {
 	accessToken: string;

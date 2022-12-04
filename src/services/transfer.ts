@@ -1,5 +1,5 @@
 import axios from "axios";
-import { UserType } from "../mocks/users";
+import { UserType } from "../mocks/userServices";
 
 type TransferProps = {
 	from: UserType;
@@ -15,5 +15,19 @@ export const transfer = ({ from, to, amount }: TransferProps) => {
 		});
 	} else {
 		throw new Error("Dados inválidos para requisição.");
+	}
+};
+
+export const getTransactionHistory = async (user: UserType) => {
+	if (user && user.accessToken) {
+		const historyResponse = await axios.get(
+			"api/" + user.account.id + "/history",
+			{
+				headers: {
+					authorization: user.accessToken,
+				},
+			}
+		);
+		return historyResponse.data;
 	}
 };

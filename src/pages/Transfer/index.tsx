@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import {
 	ChangeEvent,
 	FormEvent,
-	useCallback,
 	useContext,
 	useEffect,
 	useRef,
@@ -11,14 +10,14 @@ import {
 import { AuthContext, AuthDispatch } from "../../contexts/AuthContext";
 import { GoChevronLeft } from "react-icons/go";
 import { CashDisplay } from "../../components/CashDisplay";
-import { AccountType, UserType } from "../../mocks/users";
+import { AccountType, UserType } from "../../mocks/userServices";
 import { AuthAction } from "../../contexts/authReducer";
 import { cashToLocaleString } from "../../utils/cashFormatter";
 import { Button } from "../../components/Button";
-import { transfer } from "../../api/transfer";
+import { transfer } from "../../services/transfer";
 import { AxiosError } from "axios";
 import { Modal } from "../../components/Modal";
-import { checkUserBalance } from "../../api/account";
+import { checkUserBalance } from "../../services/account";
 
 const emptyError = {
 	hasAny: false,
@@ -98,6 +97,7 @@ export const Transfer = () => {
 				amountRef.current.value = "";
 				usernameRef.current.value = "";
 			}
+			handleRefresh();
 		}
 	}, [formStatus]);
 
