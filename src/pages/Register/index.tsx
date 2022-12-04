@@ -83,29 +83,29 @@ export const Register = () => {
 		console.error("This is my error log: ", errors);
 
 	return (
-		<>
+		<div className='w-full min-h-screen relative md:bg-ng md:bg-cover'>
 			<Link
 				to='/'
 				className='fixed top-6 left-2 rounded'>
 				<GoChevronLeft size={32} />
 			</Link>
-			<div className='px-8 min-h-screen flex flex-col justify-evenly lg:justify-center items-stretch md:items-center'>
-				<div className='flex flex-col my-24'>
+			<div className='flex flex-col lg:flex-row lg:flex-wrap py-10 px-12 md:p-12 justify-around items-center min-h-screen'>
+				<div className='flex flex-col max-w-max'>
 					<img
 						src={logotype}
 						alt='NG.CASH'
 						width={60}
 					/>
 					<h1 className='font-semibold text-4xl whitespace-normal'>
-						{`Faça parte da Nova Geração.`}
+						Faça parte da Nova Geração.
 					</h1>
 				</div>
 				<form
 					onSubmit={handleSubmit(onSubmit, onError)}
 					method='post'
 					action='/api/register'
-					className='flex flex-col gap-8 justify-center items-center mb-10 lg:mb-32'>
-					<div className='flex flex-row flex-wrap gap-4 justify-center items-center'>
+					className='flex flex-col gap-8 justify-center items-center p-8 mx-12 md:bg-black md:border md:border-primary md:rounded-md'>
+					<div className='flex flex-col gap-4 justify-center items-center'>
 						<div className='flex flex-col gap-2'>
 							<label
 								className='text-2xl font-semibold'
@@ -167,6 +167,6 @@ export const Register = () => {
 					appElement: body,
 				}}
 			/>
-		</>
+		</div>
 	);
 };

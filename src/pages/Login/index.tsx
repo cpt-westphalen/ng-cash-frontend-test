@@ -80,7 +80,7 @@ export const Login = () => {
 			<div className='flex flex-col justify-center items-center min-h-screen'>
 				<form
 					onSubmit={handleSubmit(onSubmit)}
-					className='flex flex-col md:max-w-md justify-between items-center gap-4 mt-8 mb-12 p-8 mx-12 md:bg-black md:border md:border-primary md:rounded-md'>
+					className='flex flex-col justify-between items-center gap-4 mt-8 mb-12 p-8 md:px-32 md:pb-12 lg:pb-20 mx-12 md:bg-black md:border md:border-primary md:rounded-md'>
 					<img
 						src={logotypeGif}
 						alt='NG.CASH'
