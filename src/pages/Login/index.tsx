@@ -71,23 +71,22 @@ export const Login = () => {
 	};
 
 	return (
-		<div className='min-h-screen flex flex-col justify-center items-center'>
+		<div className='w-full min-h-screen relative md:bg-ng md:bg-cover'>
 			<Link
 				to='/'
 				className='fixed top-6 left-2 rounded hover:scale-105 hover:-translate-x-1 transition '>
 				<GoChevronLeft size={32} />
 			</Link>
-			<div className='px-8 min-h-screen max-w-5xl flex flex-col justify-evenly lg:justify-center items-stretch'>
-				<img
-					src={logotypeGif}
-					alt='NG.CASH'
-					width={160}
-					className={"self-center lg:mb-24"}
-				/>
+			<div className='flex flex-col justify-center items-center min-h-screen'>
 				<form
 					onSubmit={handleSubmit(onSubmit)}
-					className='flex flex-col gap-8 justify-center items-center lg:mb-32'>
-					<div className='flex flex-row flex-wrap gap-4 justify-center items-center'>
+					className='flex flex-col md:max-w-md justify-between items-center gap-4 mt-8 mb-12 p-8 mx-12 md:bg-black md:border md:border-primary md:rounded-md'>
+					<img
+						src={logotypeGif}
+						alt='NG.CASH'
+						width={160}
+					/>
+					<div className='flex flex-col gap-4 justify-center items-center mb-4'>
 						<div className='flex flex-col gap-2'>
 							<label
 								className='text-2xl font-semibold'
