@@ -1,9 +1,4 @@
-import {
-	APIUserData,
-	findUserByAccount,
-	generateToken,
-	UserType,
-} from "./userServices";
+import { APIUserData, findUserByAccount, generateToken } from "./userServices";
 
 export interface APITransfer {
 	uuid: string;
@@ -16,8 +11,8 @@ export interface APITransfer {
 export const transfersDB: APITransfer[] = [
 	{
 		uuid: "sample-sample-sample-sample",
-		from: "god",
-		to: "admin",
+		from: "user-uuid",
+		to: "another-user-uuid",
 		amount: 10000,
 		created_at: new Date().toISOString(),
 	},

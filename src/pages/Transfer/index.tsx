@@ -149,6 +149,21 @@ export const Transfer = () => {
 
 	const handleSubmit = (event: FormEvent) => {
 		event.preventDefault();
+
+		if (!whoToTransfer) {
+			setFormStatus("waiting");
+			setErrors(() => {
+				setTimeout(() => setErrors(emptyError), 2000);
+				return {
+					hasAny: true,
+					active: {
+						target: "username",
+						message: "Insira o usuário da pessoa.",
+					},
+				};
+			});
+			return;
+		}
 		if (
 			formStatus !== "isSure?" &&
 			amountToTransfer > 0 &&
@@ -156,7 +171,7 @@ export const Transfer = () => {
 		) {
 			if (whoToTransfer == user.username) {
 				setErrors(() => {
-					setTimeout(() => setErrors(emptyError), 1000);
+					setTimeout(() => setErrors(emptyError), 2000);
 					return {
 						hasAny: true,
 						active: {
@@ -201,7 +216,7 @@ export const Transfer = () => {
 								setErrors(() => {
 									setTimeout(
 										() => setErrors(emptyError),
-										1000
+										2000
 									);
 									return {
 										hasAny: true,
@@ -229,14 +244,14 @@ export const Transfer = () => {
 				className='fixed top-6 left-2 rounded hover:scale-105 hover:-translate-x-1 transition '>
 				<GoChevronLeft size={32} />
 			</Link>
-			<div className='flex flex-row flex-wrap p-12 md:justify-center md:items-center md:min-h-screen max-w-[1440px]'>
-				<div className='flex flex-col flex-grow gap-4 sm:min-w-[24rem] md:p-12 mt-[12vh] mb-[10vh] md:mt-0 md:mb-0'>
-					<h2 className='text-3xl md:text-5xl font-bold'>
+			<div className='flex flex-col lg:flex-row lg:flex-wrap py-10 px-12 md:p-12 justify-around items-center min-h-screen'>
+				<div className='flex flex-col max-w-lg flex-grow gap-4 self-auto pt-10 md:p-12 mt-0 mb-0'>
+					<h2 className='text-4xl md:text-5xl font-bold'>
 						Bora transferir:
 					</h2>
-					<div>
+					<div className='w-full'>
 						<CashDisplay
-							className='w-full'
+							className='w-full md:w-full'
 							title='Saldo restante'
 							cash={user.account.balance - amountToTransfer}
 							display={{ hide: !showCash, toggle: setShowCash }}
@@ -247,7 +262,7 @@ export const Transfer = () => {
 				<form
 					onSubmit={handleSubmit}
 					className={
-						"flex flex-col flex-grow md:max-w-md justify-center items-center gap-4 mb-[15%] md:mb-0 py-6 md:p-8 md:mx-12 md:bg-black md:border md:border-primary md:rounded-md"
+						"flex flex-col flex-grow md:max-w-md justify-center items-center gap-4 mb-0 p-8 mx-12 md:bg-black md:border md:border-primary md:rounded-md"
 					}>
 					<div className='flex flex-col gap-2'>
 						<label
@@ -298,7 +313,7 @@ export const Transfer = () => {
 						</div>
 					</div>
 
-					<div className='absolute left-0 bottom-[10%] right-0 flex justify-center md:relative md:bottom-0 md:mt-3'>
+					<div className='flex justify-center mt-3'>
 						<Button type='fancy'>
 							{errors.hasAny && errors.active.target == "username"
 								? "Ops!"
@@ -321,6 +336,14 @@ export const Transfer = () => {
 					appElement: body,
 				}}
 			/>
+			<div className='absolute bottom-5 left-0 right-0 flex justify-center items-center'>
+				<div
+					className={`transition-transform rounded p-6 bg-primary text-secondary ${
+						errors.hasAny ? " scale-100" : " scale-0"
+					} `}>
+					{errors.hasAny && <p>⚠️ {errors.active.message}</p>}
+				</div>
+			</div>
 		</div>
 	);
 };

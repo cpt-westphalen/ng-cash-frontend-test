@@ -107,7 +107,7 @@ export const Account = () => {
 									: "fixed bottom-0 left-0 right-0"
 							}>
 							<CashHistoryButton onClick={handleHistoryClick} />
-							<div className='flex-1 max-w-7xl self-center'>
+							<div className='flex-1 md:max-w-7xl md:self-center md:w-[80%]'>
 								{isHistoryOpen && (
 									<TransactionHistory
 										user={user as UserType}
