@@ -31,7 +31,7 @@ module.exports = {
 					"spin 1s cubic-bezier(0.3, 0.6, 0.2, 0.7) infinite",
 			},
 			backgroundImage: {
-				ng: 'url("./assets/banner-landing-page.0bd7f55.jpg")',
+				ng: 'url("/assets/banner-landing-page.0bd7f55.jpg")',
 			},
 		},
 	},

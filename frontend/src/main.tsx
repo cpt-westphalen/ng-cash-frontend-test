@@ -7,9 +7,10 @@ import { AuthProvider } from "./contexts/AuthContext";
 
 import "./index.css";
 
-import { worker } from "./mocks/browser";
-
-worker.start({ onUnhandledRequest: "bypass" });
+if (process.env.NODE_ENV === "development") {
+	const worker = require("./mocks/browser");
+	worker.start({ onUnhandledRequest: "bypass" });
+}
 
 const router = createBrowserRouter(ROUTES);
 
