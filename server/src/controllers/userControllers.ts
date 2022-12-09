@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { CredentialsType, UserType } from "../../models/User";
-import userServices from "../../services/userServices";
+import { CredentialsType, UserType } from "../models/User";
+import { userServices } from "../services/userServices";
 
 // @desc Get all registered users from db
 // @route GET /api/users
 // @access Public (but should be private);
 export const getUsers = async (req: Request, res: Response) => {
-	const users: UserType[] = await userServices.getAll();
+	const users: UserType[] = await userServices.unsafeGetAll();
 	return res.json(users);
 };
 
@@ -35,15 +35,22 @@ export const createUser = async (req: Request, res: Response) => {
 				"Password needs at least one number and one uppercase letter",
 		});
 	}
-	try {
-		const user = await userServices.create({ username, password });
-		return res.status(200).json({ message: "account created!", ...user });
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({
-			message: "Something went wrong, account was not created.",
+	const unsafeUser = await userServices.create({ username, password });
+	if (unsafeUser) {
+		const safeUserWithToken = await userServices.login({
+			username,
+			password,
 		});
+		if (safeUserWithToken) {
+			return res.status(200).json({
+				message: "account created!",
+				user: safeUserWithToken,
+			});
+		}
 	}
+	return res.status(500).json({
+		message: "Something went wrong, account was not created.",
+	});
 };
 
 // @desc Login to NG-CASH Account and return token to Frontend

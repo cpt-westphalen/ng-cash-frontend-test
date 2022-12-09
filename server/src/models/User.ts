@@ -1,21 +1,15 @@
-import db, { AccountType } from "../mocks/users.db";
+import db from "../mocks/db";
 
 export type CredentialsType = {
 	username: string;
 	password: string;
 };
 
-export interface SafeUserType {
-	id: string;
-	username: string;
-	account: AccountType;
-}
-
 export interface UserType {
-	id: string;
+	user_id: string;
 	username: string;
 	password: string;
-	account: AccountType;
+	account_id: string;
 }
 
 export default class User {
@@ -29,7 +23,12 @@ export default class User {
 	}
 
 	static async findById(id: string) {
-		const user = db.users.find((user) => user.id === id);
+		const user = db.users.find((user) => user.user_id === id);
+		return user || null;
+	}
+
+	static async findByAccountId(account_id: string) {
+		const user = db.users.find((user) => user.account_id === account_id);
 		return user || null;
 	}
 
@@ -37,7 +36,7 @@ export default class User {
 		const created_at = new Date().toISOString();
 		const updated_at = new Date().toISOString();
 		db.users.push({ ...user, created_at, updated_at });
-		const createdUser = await this.findById(user.id);
+		const createdUser = await this.findById(user.user_id);
 		return createdUser;
 	}
 }
