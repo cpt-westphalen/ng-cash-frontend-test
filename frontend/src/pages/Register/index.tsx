@@ -35,7 +35,7 @@ export const Register = () => {
 	const body = document.querySelector("#root");
 
 	useEffect(() => {
-		if (auth?.accessToken) navigate("/");
+		if (auth && auth.user.accessToken) navigate("/");
 	}, []);
 
 	const handleModalClose = () => {
@@ -53,7 +53,7 @@ export const Register = () => {
 			.then((res) => {
 				authDispatch({
 					type: "register",
-					payload: { status: res.status, data: res.data },
+					payload: res.data,
 				});
 				sessionStorage.setItem("user", res.data);
 				if (!modal.open)

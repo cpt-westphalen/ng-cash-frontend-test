@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { AuthContext, AuthDispatch } from "../../../contexts/AuthContext";
 import { AccountType, UserType } from "../../../mocks/userServices";
-import { AuthAction } from "../../../contexts/authReducer";
+import { AuthAction, AuthType } from "../../../contexts/authReducer";
 
 import { checkUserBalance } from "../../../services/account";
 
@@ -16,17 +16,17 @@ import { MdOutlineClose } from "react-icons/md";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
 import { TransactionHistory } from "../../../components/TransactionHistory";
 
+const body = document.querySelector("#root");
+
 export const Account = () => {
 	const navigate = useNavigate();
 
-	const user = useContext(AuthContext) as UserType;
+	const auth = useContext(AuthContext) as AuthType;
 	const authDispatch = useContext(AuthDispatch) as React.Dispatch<AuthAction>;
 
 	const [showCash, setShowCash] = useState(false);
 	const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
-
-	const body = document.querySelector("#root");
 
 	useEffect(() => {
 		const redirectToLogin = () => {
@@ -46,10 +46,14 @@ export const Account = () => {
 			});
 		};
 
-		checkUserBalance(user, updateUserBalanceCallback, redirectToLogin);
+		checkUserBalance(auth.user, updateUserBalanceCallback, redirectToLogin);
 
 		const intervalHandle = setInterval(() => {
-			checkUserBalance(user, updateUserBalanceCallback, redirectToLogin);
+			checkUserBalance(
+				auth.user,
+				updateUserBalanceCallback,
+				redirectToLogin
+			);
 		}, 10000);
 
 		return () => {
@@ -65,7 +69,7 @@ export const Account = () => {
 		setIsHistoryOpen((prev) => !prev);
 	};
 
-	if (user && user.account.balance !== undefined)
+	if (auth.user && auth.account.balance !== undefined)
 		return (
 			<div className='md:bg-ng md:bg-cover w-full min-h-screen'>
 				<div className='min-h-screen max-w-4xl mx-auto px-12 pt-10 lg:pt-24 flex flex-col justify-center'>
@@ -84,13 +88,13 @@ export const Account = () => {
 					</button>
 					<h2 className='mt-[10vh] flex-grow text-3xl md:text-5xl md:font-bold font-semibold whitespace-pre-wrap md:leading-normal leading-snug'>
 						eae,{" \n"}
-						<span className='bg-primary text-secondary text-4xl md:text-5xl'>{`@${user.username}`}</span>
+						<span className='bg-primary text-secondary text-4xl md:text-5xl'>{`@${auth.user.username}`}</span>
 					</h2>
 					<div className='flex-1 flex flex-col pb-16'>
 						<CashDisplay
 							className='md:py-12 md:px-8 md:rounded-lg md:border-b md:border-zinc-900 md:bg-black'
 							title='Saldo atual'
-							cash={user.account.balance}
+							cash={auth.account.balance}
 							display={{ hide: !showCash, toggle: setShowCash }}
 						/>
 						<div className='py-6 flex flex-col justify-center items-center gap-3'>
@@ -112,9 +116,7 @@ export const Account = () => {
 								/>
 								<div className='flex-1 md:max-w-7xl md:self-center md:w-[80%]'>
 									{isHistoryOpen && (
-										<TransactionHistory
-											user={user as UserType}
-										/>
+										<TransactionHistory auth={auth} />
 									)}
 								</div>
 							</div>

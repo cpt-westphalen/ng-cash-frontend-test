@@ -1,26 +1,35 @@
 import { Reducer } from "react";
 import { localLogout } from "../services/auth";
-import { UserType } from "../mocks/userServices";
+import { AccountType, UserType } from "../mocks/userServices";
 
 export type AuthAction = {
 	type: string;
 	payload: any;
 };
 
-export const initialAuth: UserType = {
-	username: "",
-	id: "",
-	accessToken: "",
+export type AuthType = {
+	user: UserType;
+	account: AccountType;
+};
+
+export const initialAuth: AuthType = {
+	user: {
+		username: "",
+		user_id: "",
+		accessToken: "",
+		account_id: "",
+	},
 	account: {
-		id: "",
+		account_id: "",
 		balance: 0,
 	},
 };
 
-export const authReducer: Reducer<UserType, AuthAction> = (auth, action) => {
+export const authReducer: Reducer<AuthType, AuthAction> = (auth, action) => {
 	switch (action.type) {
 		case "login": {
-			return { ...auth, ...action.payload };
+			const user: UserType = action.payload;
+			return { ...auth, user };
 		}
 		case "logout": {
 			console.log("logout was called");
@@ -28,11 +37,12 @@ export const authReducer: Reducer<UserType, AuthAction> = (auth, action) => {
 			return initialAuth;
 		}
 		case "register": {
-			return action.payload.data;
+			const user: UserType = action.payload;
+			return { ...auth, user };
 		}
 		case "update_balance": {
-			const account = action.payload;
-			if (!account || account.id !== auth.account.id) {
+			const account: AccountType = action.payload;
+			if (!account || account.account_id !== auth.user.account_id) {
 				localLogout();
 				return initialAuth;
 			} else {

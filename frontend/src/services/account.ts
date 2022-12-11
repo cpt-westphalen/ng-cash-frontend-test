@@ -3,13 +3,11 @@ import { AccountType, UserType } from "../mocks/userServices";
 
 export const getAccount = (credentials: {
 	accessToken: string;
-	account: {
-		id: string;
-	};
+	account_id: string;
 }) => {
 	return axios
-		.get(`/api/${credentials.account.id}/cash`, {
-			headers: { Authorization: credentials.accessToken },
+		.get(`/api/${credentials.account_id}/cash`, {
+			headers: { Authorization: "Bearer " + credentials.accessToken },
 		})
 		.then((res) => res.data)
 		.catch((err) => {
@@ -26,13 +24,10 @@ export const checkUserBalance = async (
 ) => {
 	if (!user || !user.accessToken) onErrorCallback();
 
-	const {
-		accessToken,
-		account: { id },
-	} = user;
+	const { accessToken, account_id } = user;
 	const targetCredentials = {
 		accessToken,
-		account: { id },
+		account_id,
 	};
 
 	try {

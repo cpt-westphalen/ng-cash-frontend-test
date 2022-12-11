@@ -11,7 +11,7 @@ import { AuthContext, AuthDispatch } from "../../contexts/AuthContext";
 import { GoChevronLeft } from "react-icons/go";
 import { CashDisplay } from "../../components/CashDisplay";
 import { AccountType, UserType } from "../../mocks/userServices";
-import { AuthAction } from "../../contexts/authReducer";
+import { AuthAction, AuthType } from "../../contexts/authReducer";
 import { cashToLocaleString } from "../../utils/cashFormatter";
 import { Button } from "../../components/Button";
 import { transfer } from "../../services/transfer";
@@ -30,7 +30,7 @@ const emptyError = {
 export const Transfer = () => {
 	const navigate = useNavigate();
 
-	const user = useContext(AuthContext) as UserType;
+	const auth = useContext(AuthContext) as AuthType;
 	const authDispatch = useContext(AuthDispatch) as React.Dispatch<AuthAction>;
 
 	const [showCash, setShowCash] = useState(false);
@@ -76,11 +76,11 @@ export const Transfer = () => {
 			setTimeout(() => navigate("/login"), 1000);
 		};
 
-		checkUserBalance(user, updateUserBalanceCallback, redirectToLogin);
+		checkUserBalance(auth.user, updateUserBalanceCallback, redirectToLogin);
 	};
 
 	useEffect(() => {
-		if (!user.accessToken) navigate("/");
+		if (!auth.user.accessToken) navigate("/");
 
 		const intervalHandle = setInterval(handleRefresh, 10000);
 
@@ -109,7 +109,7 @@ export const Transfer = () => {
 		const cash = parseInt(value);
 		setAmountToTransfer((prev) => {
 			if (amountRef.current) {
-				if (cash > user.account.balance) {
+				if (cash > auth.account.balance) {
 					const cashFormattedValue = cashToLocaleString(prev);
 					amountRef.current.value = "R$ " + cashFormattedValue;
 					setErrors({
@@ -167,9 +167,9 @@ export const Transfer = () => {
 		if (
 			formStatus !== "isSure?" &&
 			amountToTransfer > 0 &&
-			user.account.balance > 0
+			auth.account.balance > 0
 		) {
-			if (whoToTransfer == user.username) {
+			if (whoToTransfer == auth.user.username) {
 				setErrors(() => {
 					setTimeout(() => setErrors(emptyError), 2000);
 					return {
@@ -187,7 +187,7 @@ export const Transfer = () => {
 		} else if (formStatus == "isSure?") {
 			if (amountToTransfer > 0 && whoToTransfer) {
 				transfer({
-					from: user,
+					from: auth.user,
 					to: whoToTransfer,
 					amount: amountToTransfer,
 				})
@@ -253,7 +253,7 @@ export const Transfer = () => {
 						<CashDisplay
 							className='w-full md:w-full'
 							title='Saldo restante'
-							cash={user.account.balance - amountToTransfer}
+							cash={auth.account.balance - amountToTransfer}
 							display={{ hide: !showCash, toggle: setShowCash }}
 						/>
 					</div>

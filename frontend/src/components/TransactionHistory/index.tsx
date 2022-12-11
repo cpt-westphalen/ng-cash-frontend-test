@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { UserType } from "../../mocks/userServices";
+import { AuthType } from "../../contexts/authReducer";
 import { getTransactionHistory } from "../../services/transfer";
 import { TransactionTable } from "./TransactionTable";
 
@@ -20,14 +20,14 @@ type TransferDisplayFormat = [
 ];
 
 interface APITransfer {
-	uuid: string;
+	transaction_id: string;
 	from: string;
 	to: string;
 	amount: number;
 	created_at: string;
 }
 
-export const TransactionHistory = ({ user }: { user: UserType }) => {
+export const TransactionHistory = ({ auth }: { auth: AuthType }) => {
 	const initialFilters = {
 		show: false,
 		cash: {
@@ -46,7 +46,7 @@ export const TransactionHistory = ({ user }: { user: UserType }) => {
 
 	useEffect(() => {
 		let isMounted = true;
-		getTransactionHistory(user)
+		getTransactionHistory(auth.user)
 			.then((data) => {
 				if (isMounted && (data as APITransfer[])) {
 					setTransactions((prev) => {
@@ -69,12 +69,12 @@ export const TransactionHistory = ({ user }: { user: UserType }) => {
 			let filteredTransactions: APITransfer[] = [...transactions];
 			if (filters.cash.in == false)
 				filteredTransactions = filteredTransactions.filter(
-					(transaction) => transaction.to !== user.username
+					(transaction) => transaction.to !== auth.user.username
 				);
 
 			if (filters.cash.out == false)
 				filteredTransactions = filteredTransactions.filter(
-					(transactions) => transactions.from !== user.username
+					(transactions) => transactions.from !== auth.user.username
 				);
 
 			if (filters.date.start)
@@ -95,14 +95,14 @@ export const TransactionHistory = ({ user }: { user: UserType }) => {
 		} else {
 			return [];
 		}
-	}, [transactions, filters, user.id]);
+	}, [transactions, filters, auth.user.user_id]);
 
 	const transactionFormatter = (filteredTransactions: APITransfer[]) => {
 		const formattedTransactions = filteredTransactions.map(
 			({ amount, from, to, created_at }) => {
 				const date = created_at;
-				const type = from === user.username ? "out" : "in";
-				const username = from === user.username ? to : from;
+				const type = from === auth.user.username ? "out" : "in";
+				const username = from === auth.user.username ? to : from;
 				const formattedTransaction: TransferDisplayFormat = [
 					date,
 					type,

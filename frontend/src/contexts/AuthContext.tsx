@@ -1,13 +1,13 @@
 import { createContext, useReducer } from "react";
 import { UserType } from "../mocks/userServices";
-import { AuthAction, authReducer, initialAuth } from "./authReducer";
+import { AuthAction, authReducer, AuthType, initialAuth } from "./authReducer";
 
 type AuthContextType = {
 	user: UserType;
 	dispatch: (action: string, payload: any) => void;
 };
 
-export const AuthContext = createContext<UserType | null>(null);
+export const AuthContext = createContext<AuthType | null>(null);
 export const AuthDispatch = createContext<React.Dispatch<AuthAction> | null>(
 	null
 );

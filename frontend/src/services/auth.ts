@@ -14,7 +14,7 @@ export const registerNewAccount = (credentials: UserCredentials) => {
 
 export const loginToAccount = (credentials: UserCredentials) => {
 	sessionStorage.removeItem("user");
-	return axios.post("/api/auth", credentials).then((res) => {
+	return axios.post("/api/login", credentials).then((res) => {
 		sessionStorage.setItem("user", JSON.stringify(res.data));
 		return res;
 	});

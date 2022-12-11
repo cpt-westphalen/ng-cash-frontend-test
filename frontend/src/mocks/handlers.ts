@@ -1,98 +1,99 @@
-import { rest } from "msw";
-import { createPayment, getUserTransactionHistory } from "./transferServices";
-import {
-	addUser,
-	findUserByUsername,
-	findUserByAccount,
-	login,
-} from "./userServices";
+// import { rest } from "msw";
+// import { createPayment, getUserTransactionHistory } from "./transferServices";
+// import {
+// 	addUser,
+// 	findUserByUsername,
+// 	findUserByAccount,
+// 	login,
+// } from "./userServices";
 
-export const handlers = [
-	rest.post("/api/register", async (req, res, ctx) => {
-		const data = (await req.json()) as {
-			username: string;
-			password: string;
-		};
-		const isTaken = findUserByUsername(data.username);
-		if (isTaken) {
-			return res(
-				ctx.status(409, "O nome de usuário já está registrado.")
-			);
-		}
-		const { username, id, accessToken, account } = addUser({ ...data });
-		ctx.status(201);
-		return res(
-			ctx.json({ username, id, accessToken, account: { id: account.id } })
-		);
-	}),
-	rest.post("/api/auth", async (req, res, ctx) => {
-		const credentials = await req.json();
-		try {
-			const payload = login(credentials);
-			return res(ctx.json(payload));
-		} catch (e) {
-			console.error(e);
-			return res(ctx.status(401));
-		}
-	}),
-	rest.get("/api/:account/:data", async (req, res, ctx) => {
-		const { account, data } = req.params;
+// export const handlers = [
+// 	rest.post("/api/register", async (req, res, ctx) => {
+// 		const data = (await req.json()) as {
+// 			username: string;
+// 			password: string;
+// 		};
+// 		const isTaken = findUserByUsername(data.username);
+// 		if (isTaken) {
+// 			return res(
+// 				ctx.status(409, "O nome de usuário já está registrado.")
+// 			);
+// 		}
+// 		const { username, user_id, accessToken, account_id } = addUser({ ...data });
+// 		ctx.status(201);
+// 		return res(
+// 			ctx.json({ username, user_id, accessToken, account_id })
+// 		);
+// 	}),
+// 	rest.post("/api/auth", async (req, res, ctx) => {
+// 		const credentials = await req.json();
+// 		try {
+// 			const payload = login(credentials);
+// 			return res(ctx.json(payload));
+// 		} catch (e) {
+// 			console.error(e);
+// 			return res(ctx.status(401));
+// 		}
+// 	}),
+// 	rest.get("/api/:account/:data", async (req, res, ctx) => {
+// 		const { account, data } = req.params;
 
-		const target = findUserByAccount(account as string);
+// 		const target = findUserByAccount(account as string);
 
-		if (!target) return res(ctx.status(404));
+// 		if (!target) return res(ctx.status(404));
 
-		if (target.accessToken === req.headers.get("authorization")) {
-			switch (data) {
-				case "cash": {
-					return res(ctx.json(target.account));
-				}
-				case "history": {
-					const history = await getUserTransactionHistory(
-						target.transfers
-					);
-					return res(ctx.json(history));
-				}
-				default:
-					return res(ctx.status(400));
-			}
-		} else {
-			return res(ctx.status(401));
-		}
-	}),
-	rest.post("/api/:account/:action", async (req, res, ctx) => {
-		const { account, action } = req.params;
+// 		if (target.accessToken === req.headers.get("authorization")) {
+// 			switch (data) {
+// 				case "cash": {
+// 					return res(ctx.json(target.account_id));
+// 				}
+// 				case "history": {
+// 					const history = await getUserTransactionHistory(
+// 						target.transfers
+// 					);
+// 					return res(ctx.json(history));
+// 				}
+// 				default:
+// 					return res(ctx.status(400));
+// 			}
+// 		} else {
+// 			return res(ctx.status(401));
+// 		}
+// 	}),
+// 	rest.post("/api/:account/:action", async (req, res, ctx) => {
+// 		const { account, action } = req.params;
 
-		const user = findUserByAccount(account as string);
+// 		const user = findUserByAccount(account as string);
 
-		if (!user) return res(ctx.status(404));
+// 		if (!user) return res(ctx.status(404));
 
-		if (user.accessToken === req.headers.get("authorization")) {
-			switch (action) {
-				case "cashout": {
-					const payload = (await req.json()) as {
-						from: string;
-						to: string;
-						amount: number;
-					};
-					if (payload) {
-						if (payload.amount > user.account.balance) {
-							return res(
-								ctx.status(409, "Não há saldo suficiente")
-							);
-						}
-						const target = findUserByUsername(payload.to);
-						if (target && target.account.id !== user.account.id) {
-							createPayment(user, target, payload.amount);
-							return res(ctx.status(200));
-						} else {
-							return res(ctx.status(404));
-						}
-					} else {
-						return res(ctx.status(422));
-					}
-				}
-			}
-		}
-	}),
-];
+// 		if (user.accessToken === req.headers.get("authorization")) {
+// 			switch (action) {
+// 				case "cashout": {
+// 					const payload = (await req.json()) as {
+// 						from: string;
+// 						to: string;
+// 						amount: number;
+// 					};
+// 					if (payload) {
+// 						if (payload.amount > user.account.balance) {
+// 							return res(
+// 								ctx.status(409, "Não há saldo suficiente")
+// 							);
+// 						}
+// 						const target = findUserByUsername(payload.to);
+// 						if (target && target.account.id !== user.account.id) {
+// 							createPayment(user, target, payload.amount);
+// 							return res(ctx.status(200));
+// 						} else {
+// 							return res(ctx.status(404));
+// 						}
+// 					} else {
+// 						return res(ctx.status(422));
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}),
+// ];
+export const nil3 = null;

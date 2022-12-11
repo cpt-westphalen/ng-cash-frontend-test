@@ -34,7 +34,7 @@ export const Login = () => {
 	};
 
 	useEffect(() => {
-		if (auth?.accessToken) navigate("/");
+		if (auth && auth.user.accessToken) navigate("/");
 	}, []);
 
 	const {
@@ -59,6 +59,7 @@ export const Login = () => {
 				});
 			})
 			.catch((error) => {
+				console.warn(error);
 				setModalMessage((state) => {
 					setIsModalOpen(true);
 					return {
