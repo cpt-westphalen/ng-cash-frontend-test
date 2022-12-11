@@ -104,18 +104,11 @@ const generateJWT = (safeUser: SafeUserType | UserType) => {
 	return token;
 };
 
-const parseUserFromToken = async (token: string) => {
-	try {
-		const jwtPayload = jsonwebtoken.verify(
-			token,
-			jwtSecret
-		) as SafeUserWithTokenType;
-		if (jwtPayload) {
-			console.log(jwtPayload);
-			return jwtPayload;
-		}
-	} catch (error) {
-		console.warn(error);
+const parseUserFromTokenTHROWS = async (token: string) => {
+	const jwtPayload = jsonwebtoken.verify(token, jwtSecret);
+	if (jwtPayload) {
+		console.log(jwtPayload);
+		return jwtPayload as SafeUserType;
 	}
 	return null;
 };
@@ -135,5 +128,5 @@ export const userServices = {
 	findByUsername,
 	findByAccountId,
 	login,
-	parseUserFromToken,
+	parseUserFromTokenTHROWS,
 };

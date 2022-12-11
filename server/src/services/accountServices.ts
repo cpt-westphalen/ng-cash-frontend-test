@@ -16,7 +16,7 @@ const create = async (user_id: string) => {
 
 const getBalanceByAccountId = async (account_id: string) => {
 	if (uuidValidate(account_id)) {
-		const balance = Account.getBalance(account_id);
+		const balance = await Account.getBalance(account_id);
 		return balance;
 	}
 	return null;
