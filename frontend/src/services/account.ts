@@ -9,7 +9,7 @@ export const getAccount = (credentials: {
 		.get(`/api/${credentials.account_id}/cash`, {
 			headers: { Authorization: "Bearer " + credentials.accessToken },
 		})
-		.then((res) => res.data)
+		.then((res) => res.data as AccountType)
 		.catch((err) => {
 			throw new Error(
 				err.status + ", não foi possível receber os dados."
@@ -22,7 +22,9 @@ export const checkUserBalance = async (
 	onSuccessCallback: (account: AccountType) => void,
 	onErrorCallback: () => void
 ) => {
-	if (!user || !user.accessToken) onErrorCallback();
+	if (!user || !user.accessToken) {
+		onErrorCallback();
+	}
 
 	const { accessToken, account_id } = user;
 	const targetCredentials = {

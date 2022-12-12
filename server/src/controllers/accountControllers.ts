@@ -30,5 +30,5 @@ export const getAccountBalance = async (
 		return res.status(403);
 	}
 	const balance = await accountServices.getBalanceByAccountId(account_id);
-	return res.status(200).json({ balance });
+	return res.status(200).json({ account_id, balance });
 };
