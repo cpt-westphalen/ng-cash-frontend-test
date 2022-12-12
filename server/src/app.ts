@@ -3,7 +3,9 @@ import path from "path";
 import { routes } from "./routes";
 
 const app = express();
-app.use(express.static(path.resolve(__dirname, "..", "frontend")));
+app.use(
+	express.static(path.resolve(__dirname, "..", "..", "frontend", "dist"))
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -12,7 +14,7 @@ app.use("/api/", routes);
 
 app.get("*", (req: Request, res: Response) => {
 	res.status(200).sendFile(
-		path.resolve(__dirname, "..", "frontend", "index.html")
+		path.resolve(__dirname, "..", "..", "frontend", "dist", "index.html")
 	);
 });
 
