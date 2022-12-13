@@ -1,6 +1,10 @@
-node_modules
-npm-debug.log
-build
+Dockerfile
+docker*.yml
 .git
-*.md
 .gitignore
+.config
+.npm
+.vscode
+node_modules
+README.md
+npm-*
