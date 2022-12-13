@@ -10,9 +10,8 @@ services:
             - /usr/src/app/node_modules
         ports:
             - "5173:5173"
-        stdin_open: true
     server:
-        container_name: ng-server
+        restart: always
         build:
             context: ./server
             dockerfile: Dockerfile.dev
@@ -20,7 +19,8 @@ services:
             args:
                 NODE_PORT: 3000
         volumes:
-            - ./server:/usr/src/app
-            - /usr/src/app/node_modules
+            - ./server:/usr/node/app
+            - /usr/node/app/node_modules
         ports:
             - "3000:3000"
+        stdin_open: true

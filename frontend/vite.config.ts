@@ -9,7 +9,8 @@ export default defineConfig({
 		strictPort: true,
 		port: 5173,
 		proxy: {
-			"/api": "http://server:3000",
+			"/api": "http://server:3000", // switch to this when in docker-compose
+			// "/api": "http://localhost:3000", // switch to this when in local machine or when only the server is on docker
 		},
 	},
 });

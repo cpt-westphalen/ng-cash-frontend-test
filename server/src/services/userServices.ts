@@ -107,7 +107,6 @@ const generateJWT = (safeUser: SafeUserType | UserType) => {
 const parseUserFromTokenTHROWS = async (token: string) => {
 	const jwtPayload = jsonwebtoken.verify(token, jwtSecret);
 	if (jwtPayload) {
-		console.log(jwtPayload);
 		return jwtPayload as SafeUserType;
 	}
 	return null;
