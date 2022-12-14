@@ -6,8 +6,8 @@ services:
             dockerfile: Dockerfile.dev
             target: development
         volumes:
-            - ./frontend:/usr/src/app
-            - /usr/src/app/node_modules
+            - ./frontend/:/home/node/app/
+            - /home/node/app/node_modules
         ports:
             - "5173:5173"
     server:
@@ -16,11 +16,10 @@ services:
             context: ./server
             dockerfile: Dockerfile.dev
             target: development
-            args:
-                NODE_PORT: 3000
+        environment:
+            - PORT=3000
         volumes:
-            - ./server:/usr/node/app
-            - /usr/node/app/node_modules
+            - ./server:/home/node/app
+            - /home/node/app/node_modules
         ports:
             - "3000:3000"
-        stdin_open: true
