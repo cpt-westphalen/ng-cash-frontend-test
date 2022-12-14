@@ -6,7 +6,6 @@ export default defineConfig({
 	plugins: [react()],
 	server: {
 		host: true,
-		strictPort: true,
 		port: 5173,
 		proxy: {
 			"/api": "http://server:3000", // switch to this when in docker-compose
