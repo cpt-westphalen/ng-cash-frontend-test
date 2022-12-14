@@ -5,6 +5,7 @@ export interface AccountType {
 	account_id: string;
 	balance: number;
 	transaction_ids: string[];
+	user_id: string;
 }
 
 export class Account {

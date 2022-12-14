@@ -1,13 +1,18 @@
 import { v4 as uuidv4, validate as uuidValidate } from "uuid";
 import { NEW_USER_BALANCE } from "../config/newUserBalance.config";
-import { Account } from "../models/Account";
+import { Account, AccountType } from "../models/Account";
 
 const create = async (user_id: string) => {
 	if (uuidValidate(user_id)) {
 		const account_id = uuidv4();
 		const balance = NEW_USER_BALANCE;
 		const transaction_ids: string[] = [];
-		const account = { user_id, account_id, balance, transaction_ids };
+		const account: AccountType = {
+			user_id,
+			account_id,
+			balance,
+			transaction_ids,
+		};
 		const safeNewAccount = await Account.create(account);
 		if (safeNewAccount) return safeNewAccount;
 	}

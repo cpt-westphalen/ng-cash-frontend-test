@@ -12,5 +12,6 @@ export const accounts_db: DbAccountType[] = [
 		balance: 10000,
 		created_at: new Date().toISOString(),
 		updated_at: new Date().toISOString(),
+		user_id: "08d13ecd-c881-4cab-a185-eae2ed404613",
 	},
 ];
