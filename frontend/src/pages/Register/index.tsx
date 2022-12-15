@@ -53,9 +53,9 @@ export const Register = () => {
 			.then((res) => {
 				authDispatch({
 					type: "register",
-					payload: res.data,
+					payload: res.data.user,
 				});
-				sessionStorage.setItem("user", res.data);
+				sessionStorage.setItem("user", res.data.user);
 				if (!modal.open)
 					setModal((prev) => ({
 						open: true,
