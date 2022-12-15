@@ -32,9 +32,8 @@ export const authReducer: Reducer<AuthType, AuthAction> = (auth, action) => {
 			return { ...auth, user };
 		}
 		case "logout": {
-			console.log("logout was called");
 			localLogout();
-			return initialAuth;
+			return { ...initialAuth };
 		}
 		case "register": {
 			const user: UserType = action.payload;
@@ -44,7 +43,7 @@ export const authReducer: Reducer<AuthType, AuthAction> = (auth, action) => {
 			const account: AccountType = action.payload;
 			if (!account || account.account_id !== auth.user.account_id) {
 				localLogout();
-				return initialAuth;
+				return { ...initialAuth };
 			} else {
 				return {
 					...auth,

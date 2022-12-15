@@ -75,7 +75,6 @@ export const Transfer = () => {
 			});
 			setTimeout(() => navigate("/login"), 1000);
 		};
-
 		checkUserBalance(auth.user, updateUserBalanceCallback, redirectToLogin);
 	};
 
@@ -88,6 +87,10 @@ export const Transfer = () => {
 			clearInterval(intervalHandle);
 		};
 	}, []);
+
+	useEffect(() => {
+		if (!auth.user.accessToken) navigate("/");
+	}, [auth]);
 
 	useEffect(() => {
 		if (formStatus == "sent") {
@@ -205,8 +208,9 @@ export const Transfer = () => {
 					.catch((e: AxiosError) => {
 						if (e.response) {
 							if (
-								e.response.status == 409 ||
-								e.response.status == 403
+								e.response.status >= 400 &&
+								e.response.status !== 404 &&
+								e.response.status < 500
 							) {
 								authDispatch({
 									type: "logout",

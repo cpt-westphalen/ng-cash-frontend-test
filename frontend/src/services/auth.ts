@@ -7,19 +7,19 @@ type UserCredentials = {
 
 export const registerNewAccount = (credentials: UserCredentials) => {
 	return axios.post("/api/register", credentials).then((res) => {
-		sessionStorage.setItem("user", JSON.stringify(res.data));
+		localStorage.setItem("user", JSON.stringify(res.data));
 		return res;
 	});
 };
 
 export const loginToAccount = (credentials: UserCredentials) => {
-	sessionStorage.removeItem("user");
+	localStorage.removeItem("user");
 	return axios.post("/api/login", credentials).then((res) => {
-		sessionStorage.setItem("user", JSON.stringify(res.data));
+		localStorage.setItem("user", JSON.stringify(res.data));
 		return res;
 	});
 };
 
 export const localLogout = () => {
-	sessionStorage.removeItem("user");
+	localStorage.removeItem("user");
 };

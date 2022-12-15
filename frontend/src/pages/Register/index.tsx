@@ -55,7 +55,7 @@ export const Register = () => {
 					type: "register",
 					payload: res.data.user,
 				});
-				sessionStorage.setItem("user", res.data.user);
+				localStorage.setItem("user", JSON.stringify(res.data.user));
 				if (!modal.open)
 					setModal((prev) => ({
 						open: true,

@@ -23,11 +23,11 @@ export class AccountController {
 	// @access Private
 	getAccountBalance = async (req: Request, res: Response) => {
 		const bearerToken = req.headers.authorization;
-		if (!bearerToken) return res.status(403);
+		if (!bearerToken) return res.status(403).send();
 		const token = bearerToken.split(" ")[1];
 
 		const { account_id } = req.params;
-		if (!account_id) return res.status(403);
+		if (!account_id) return res.status(403).send();
 
 		const user = await this.userServices
 			.parseUserFromTokenTHROWS(token)
@@ -36,10 +36,10 @@ export class AccountController {
 				res.status(403).json({ message: err.message });
 			});
 
-		if (!user) return res.status(403);
+		if (!user) return res.status(403).send();
 
 		if (user.account_id !== account_id) {
-			return res.status(403);
+			return res.status(403).send();
 		}
 		const balance = await this.accountServices.getBalanceByAccountId(
 			account_id
@@ -53,11 +53,11 @@ export class AccountController {
 	// @body {from: user_id, to: username, amount: value}
 	cashOut = async (req: Request, res: Response) => {
 		const bearerToken = req.headers.authorization;
-		if (!bearerToken) return res.status(403);
+		if (!bearerToken) return res.status(403).send();
 		const token = bearerToken.split(" ")[1];
 
 		const { account_id } = req.params;
-		if (!account_id) return res.status(403);
+		if (!account_id) return res.status(403).send();
 
 		const user = await this.userServices
 			.parseUserFromTokenTHROWS(token)
@@ -66,24 +66,26 @@ export class AccountController {
 				res.status(403).json({ message: err.message });
 			});
 
-		if (!user) return res.status(403);
-		if (user.account_id !== account_id) return res.status(403);
+		if (!user) return res.status(403).send();
+		if (user.account_id !== account_id) return res.status(403).send();
 		// actual controller
 		const { from, to, amount } = req.body;
-		if (!from || !to || !amount) return res.status(400);
-		if (user.user_id !== from) return res.status(403);
+		if (!from || !to || !amount) return res.status(400).send();
+		if (user.user_id !== from) return res.status(403).send();
+
 		const to_user = await this.userServices.findByUsername(to);
-		if (!to_user) return res.status(404);
+		if (!to_user) return res.status(404).send();
+
 		const transaction = await this.transactionServices.create({
 			from_id: account_id,
 			to_id: to_user.account_id,
 			amount,
 		});
-		if (!transaction) return res.status(500);
+		if (!transaction) return res.status(500).send();
 		let isOK = await this.transactionServices.addTransactionToParties(
 			transaction
 		);
-		if (!isOK) return res.status(500);
+		if (!isOK) return res.status(500).send();
 		const frontendTransaction =
 			this.transactionServices.replaceIdsWithUsernames(transaction);
 		return res.status(200).json({
