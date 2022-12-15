@@ -9,7 +9,7 @@ type TransferProps = {
 
 export const transfer = ({ from, to, amount }: TransferProps) => {
 	if (to && amount > 0 && from.accessToken && from.username !== to) {
-		const data = { from: from.account_id, to, amount };
+		const data = { from: from.user_id, to, amount };
 		return axios.post(`/api/${from.account_id}/cashout`, data, {
 			headers: { Authorization: "Bearer " + from.accessToken },
 		});

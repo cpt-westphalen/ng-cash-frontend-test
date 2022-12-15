@@ -7,6 +7,7 @@ import { AccountServicesI } from "./accountServices";
 import { DbUserType } from "../mocks/users.db";
 
 import { jwtSecret } from "../config/auth.config";
+import { TransactionType } from "../models/Transaction";
 
 export interface SafeUserType {
 	user_id: string;
@@ -30,7 +31,7 @@ export interface UserServicesI {
 }
 
 export class UserServices implements UserServicesI {
-	accountServices: AccountServicesI;
+	private accountServices: AccountServicesI;
 
 	constructor(accountServices: AccountServicesI) {
 		this.accountServices = accountServices;

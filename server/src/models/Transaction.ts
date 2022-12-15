@@ -6,15 +6,14 @@ export interface TransactionType {
 	to: string;
 	from: string;
 	amount: number;
+	created_at: string;
 }
 
 export class Transaction {
 	public static async create(transaction: TransactionType) {
-		const created_at = new Date().toISOString();
 		const updated_at = new Date().toISOString();
 		const newTransaction: DbTransactionType = {
 			...transaction,
-			created_at,
 			updated_at,
 		};
 		db.transactions.push(newTransaction);

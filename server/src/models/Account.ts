@@ -21,11 +21,50 @@ export class Account {
 		return account;
 	}
 
+	static async findById(account_id: string) {
+		return db.accounts.find((acc) => acc.account_id === account_id);
+	}
 	static async getBalance(account_id: string) {
 		const account = db.accounts.find(
 			(account) => account.account_id === account_id
 		);
 
 		return account ? account.balance : null;
+	}
+
+	static async updateBalance({
+		account_id,
+		balance,
+	}: {
+		account_id: string;
+		balance: number;
+	}) {
+		const account = db.accounts.find(
+			(acc) => acc.account_id === account_id
+		);
+		if (account) {
+			account.balance = balance;
+			return balance;
+		}
+		return null;
+	}
+
+	static async addTransactionToHistory({
+		account_id,
+		transaction_id,
+	}: {
+		account_id: string;
+		transaction_id: string;
+	}) {
+		const acc = db.accounts.find((acc) => acc.account_id === account_id);
+		if (acc) acc.transaction_ids.unshift(transaction_id);
+	}
+	static async deleteLatestTransactionFromHistory(account_id: string) {
+		const acc = db.accounts.find((acc) => acc.account_id === account_id);
+		if (acc) {
+			acc.transaction_ids.shift();
+			return true;
+		}
+		return false;
 	}
 }
