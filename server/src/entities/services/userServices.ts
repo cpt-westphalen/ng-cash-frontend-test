@@ -2,12 +2,12 @@ import { v4 as uuidv4, validate as uuidValidate } from "uuid";
 import jsonwebtoken from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-import User, { CredentialsType, UserType } from "../models/User";
+import User, { CredentialsType, UserType } from "../User";
 import { AccountServicesI } from "./accountServices";
-import { DbUserType } from "../mocks/users.db";
+import { DbUserType } from "../../mocks/users.db";
 
-import { jwtSecret } from "../config/auth.config";
-import { TransactionType } from "../models/Transaction";
+import { jwtSecret } from "../../config/auth.config";
+import { TransactionType } from "../Transaction";
 
 export interface SafeUserType {
 	user_id: string;

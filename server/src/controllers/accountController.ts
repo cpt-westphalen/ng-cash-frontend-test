@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { AccountServicesI } from "../services/accountServices";
-import { TransactionServices } from "../services/transactionServices";
-import { UserServicesI } from "../services/userServices";
+import { AccountServicesI } from "../entities/services/accountServices";
+import { TransactionServices } from "../entities/services/transactionServices";
+import { UserServicesI } from "../entities/services/userServices";
 
 export class AccountController {
 	accountServices: AccountServicesI;

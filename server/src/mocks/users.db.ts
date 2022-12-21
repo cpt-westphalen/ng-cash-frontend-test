@@ -1,4 +1,4 @@
-import { UserType } from "../models/User";
+import { UserType } from "../entities/User";
 
 export interface DbUserType extends UserType {
 	created_at: string;

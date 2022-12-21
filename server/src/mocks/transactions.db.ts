@@ -1,4 +1,4 @@
-import { TransactionType } from "../models/Transaction";
+import { TransactionType } from "../entities/Transaction";
 
 export interface DbTransactionType extends TransactionType {
 	transaction_id: string;

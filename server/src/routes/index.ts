@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { AccountController } from "../controllers/accountController";
 import { UserController } from "../controllers/userController";
-import { accountServices } from "../services/accountServices";
-import { TransactionServices } from "../services/transactionServices";
-import { UserServices } from "../services/userServices";
+import { accountServices } from "../entities/services/accountServices";
+import { TransactionServices } from "../entities/services/transactionServices";
+import { UserServices } from "../entities/services/userServices";
 
 const router = Router();
 

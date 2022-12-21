@@ -1,7 +1,7 @@
 import { v4 as uuidv4, validate as uuidValidate } from "uuid";
-import { NEW_USER_BALANCE } from "../config/newUserBalance.config";
-import { Account, AccountType } from "../models/Account";
-import { TransactionType } from "../models/Transaction";
+import { NEW_USER_BALANCE } from "../../config/newUserBalance.config";
+import { Account, AccountType } from "../Account";
+import { TransactionType } from "../Transaction";
 
 export interface AccountServicesI {
 	create: (user_id: string) => Promise<AccountType | null>;

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { CredentialsType, UserType } from "../models/User";
-import { UserServicesI } from "../services/userServices";
+import { CredentialsType, UserType } from "../entities/User";
+import { UserServicesI } from "../entities/services/userServices";
 
 export class UserController {
 	userServices: UserServicesI;

@@ -1,13 +1,5 @@
 import { randomUUID } from "crypto";
 import { _Account } from "./_Account";
-import { Account } from "./Account";
-
-interface UserType {
-	user_id: string;
-	username: string;
-	password: string;
-	account_id: string;
-}
 
 type UserProps = {
 	username: string;
@@ -44,7 +36,7 @@ export class _User {
 		return this.props.password;
 	}
 
-	public get account(): Account {
+	public get account(): _Account {
 		return this.props.account;
 	}
 }

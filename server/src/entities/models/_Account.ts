@@ -1,10 +1,4 @@
-import { NEW_USER_BALANCE } from "../config/newUserBalance.config";
-
-interface AccountType {
-	account_id: string;
-	balance: number;
-	transaction_ids: string[];
-}
+import { NEW_USER_BALANCE } from "../../config/newUserBalance.config";
 
 type AccountProps = {
 	balance: number;

@@ -1,4 +1,4 @@
-import { AccountType } from "../models/Account";
+import { AccountType } from "../entities/Account";
 
 export interface DbAccountType extends AccountType {
 	created_at: string;
