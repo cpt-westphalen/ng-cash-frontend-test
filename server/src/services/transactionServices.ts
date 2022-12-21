@@ -12,23 +12,27 @@ type frontendTransactionType = {
 };
 
 interface TransactionServicesI {
-	create: ({}: {
+	create({}: {
 		to_id: string;
 		from_id: string;
 		amount: number;
-	}) => Promise<TransactionType | null>;
+	}): Promise<TransactionType | null>;
+
+	replaceIdsWithUsernames(
+		transaction: TransactionType
+	): Promise<frontendTransactionType | null>;
+
+	addTransactionToParties(transaction: TransactionType): Promise<boolean>;
 }
 
 export class TransactionServices implements TransactionServicesI {
-	private userServices: UserServicesI;
-	private accountServices: AccountServicesI;
-
 	constructor(
-		userServices: UserServicesI,
-		accountServices: AccountServicesI
-	) {
-		this.accountServices = accountServices;
-		this.userServices = userServices;
+		private userServices: UserServicesI,
+		private accountServices: AccountServicesI
+	) {}
+
+	public async find(transaction_id: string) {
+		//fill me in
 	}
 
 	public async create({
