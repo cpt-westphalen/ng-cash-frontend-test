@@ -1,5 +1,5 @@
 import { v4 as uuidv4, validate as uuidValidate } from "uuid";
-import { Transaction, TransactionType } from "../entities/Transaction";
+import { Transaction, TransactionType } from "../Transaction";
 import { AccountServicesI } from "./accountServices";
 import { UserServicesI } from "./userServices";
 

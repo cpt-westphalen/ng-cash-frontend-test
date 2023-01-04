@@ -1,7 +1,8 @@
 import { _Transaction } from "../models/_Transaction";
 
 export abstract class TransactionRepository {
-	abstract getByAccountId(): Promise<_Transaction[]>;
-	abstract getByIdArray(): Promise<_Transaction[]>;
-	abstract create(): Promise<_Transaction>;
+	abstract getById(transactionId: string): Promise<_Transaction>;
+	abstract getByIdArray(ids: string[]): Promise<_Transaction[]>;
+	abstract getByAccountId(accountId: string): Promise<_Transaction[]>;
+	abstract create(transaction: _Transaction): Promise<_Transaction>;
 }

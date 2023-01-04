@@ -1,5 +1,4 @@
 import { _Account } from "../models/_Account";
-import { _Transaction } from "../models/_Transaction";
 import { AccountRepository } from "../repositories/AccountRepository";
 
 export class AccountServices {

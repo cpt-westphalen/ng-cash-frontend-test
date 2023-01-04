@@ -1,8 +1,9 @@
 import { randomUUID } from "crypto";
+import { _User } from "./_User";
 
 type TransactionProps = {
-	creditedAccountId: string;
-	debitedAccountId: string;
+	from: _User;
+	to: _User;
 	amount: number;
 	created_at: Date;
 };
@@ -20,12 +21,12 @@ export class _Transaction {
 		return this._id;
 	}
 
-	public get to(): string {
-		return this.props.creditedAccountId;
+	public get to(): _User {
+		return this.props.to;
 	}
 
-	public get from(): string {
-		return this.props.debitedAccountId;
+	public get from(): _User {
+		return this.props.from;
 	}
 
 	public get amount(): number {
@@ -34,5 +35,20 @@ export class _Transaction {
 
 	public get created_at(): Date {
 		return this.props.created_at;
+	}
+
+	public get creditedAccountId(): string {
+		return this.props.to.account.id;
+	}
+
+	public get debitedAccountId(): string {
+		return this.props.from.account.id;
+	}
+
+	public get fromUsername(): string {
+		return this.props.from.username;
+	}
+	public get toUsername(): string {
+		return this.props.to.username;
 	}
 }
