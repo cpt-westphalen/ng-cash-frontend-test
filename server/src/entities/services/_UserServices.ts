@@ -7,17 +7,17 @@ import jsonwebtoken from "jsonwebtoken";
 
 import { jwtSecret } from "../../config/auth.config";
 
-interface SafeUser {
+export interface SafeUser {
 	id: string;
 	username: string;
-	account: _Account;
+	account: { id: string; balance: number; transaction_ids: string[] };
 }
 
-interface Token {
+export interface Token {
 	accessToken: string;
 }
 
-type Credentials = {
+export type Credentials = {
 	username: string;
 	password: string;
 };
@@ -70,20 +70,20 @@ export class UserServices {
 		return user;
 	}
 
-	async parseUserFromTokenTHROWS({ accessToken }: Token): Promise<SafeUser> {
-		const jwtPayload = jsonwebtoken.verify(accessToken, jwtSecret);
-		if (!jwtPayload) {
-			throw new Error("Invalid JWT");
-		}
-		return jwtPayload as SafeUser;
-	}
-
 	async unsafeGetAll() {
 		return await this.userRepository.getAll();
 	}
 
 	private turnSafe(user: _User): SafeUser {
-		return { id: user.id, username: user.username, account: user.account };
+		return {
+			id: user.id,
+			username: user.username,
+			account: {
+				id: user.account.id,
+				balance: user.account.balance,
+				transaction_ids: user.account.transaction_ids,
+			},
+		};
 	}
 
 	private generateJWT(safeUser: SafeUser): Token {

@@ -1,28 +1,26 @@
 import { Router } from "express";
-import { AccountController } from "../controllers/accountController";
-import { UserController } from "../controllers/userController";
-import { accountServices } from "../entities/services/accountServices";
-import { TransactionServices } from "../entities/services/transactionServices";
-import { UserServices } from "../entities/services/userServices";
+import {
+	accountController,
+	authController,
+	userController,
+	transactionController,
+} from "../modules/http.module";
+import { tokenParser } from "../middleware/tokenParser";
 
 const router = Router();
 
-const userServices = new UserServices(accountServices);
-const userController = new UserController(userServices);
-router.get("/users", userController.getUsers);
-router.post("/login", userController.loginUser);
-router.post("/register", userController.createUser);
+router.get("/users", (req, res) => userController.getUsers(req, res));
 
-const transactionServices = new TransactionServices(
-	userServices,
-	accountServices
+router.post("/login", (req, res) => authController.loginUser(req, res));
+router.post("/register", (req, res) => authController.createUser(req, res));
+
+router.use(tokenParser);
+router.get("/:account_id/cash", (req, res) =>
+	accountController.getAccountBalance(req, res)
 );
-const accountController = new AccountController(
-	accountServices,
-	userServices,
-	transactionServices
+
+router.post("/:account_id/cashout", (req, res) =>
+	transactionController.cashOut(req, res)
 );
-router.get("/:account_id/cash", accountController.getAccountBalance);
-router.post("/:account_id/cashout", accountController.cashOut);
 
 export const routes = router;
