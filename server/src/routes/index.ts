@@ -9,18 +9,21 @@ import { tokenParser } from "../middleware/tokenParser";
 
 const router = Router();
 
+router.use(tokenParser);
+
 router.get("/users", (req, res) => userController.getUsers(req, res));
+router.get("/transactions", (req, res) =>
+	transactionController.getAllTransactions(req, res)
+);
 
 router.post("/login", (req, res) => authController.loginUser(req, res));
 router.post("/register", (req, res) => authController.createUser(req, res));
-
-router.use(tokenParser);
 
 router.get("/:account_id/cash", (req, res) =>
 	accountController.getAccountBalance(req, res)
 );
 
-router.post("/:account_id/cashout", (req, res) =>
+router.post("/:account_id/send", (req, res) =>
 	transactionController.cashOut(req, res)
 );
 

@@ -33,6 +33,11 @@ export type Credentials = {
 export class UserServices {
 	constructor(private userRepository: UserRepository) {}
 
+	async findById(id: string): Promise<_User | null> {
+		const unsafeUser = await this.userRepository.findById(id);
+		return unsafeUser;
+	}
+
 	async findByUsername(username: string): Promise<SafeUser | null> {
 		const unsafeUser = await this.userRepository.findByUsername(username);
 		return unsafeUser ? this.turnSafe(unsafeUser) : null;

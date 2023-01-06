@@ -1,9 +1,17 @@
 import { randomUUID } from "crypto";
 import { _User } from "./_User";
 
-type TransactionProps = {
-	from: _User;
-	to: _User;
+export type MinimalSafeUser = {
+	id: string;
+	username: string;
+	account: {
+		id: string;
+	};
+};
+
+export type TransactionProps = {
+	from: MinimalSafeUser;
+	to: MinimalSafeUser;
 	amount: number;
 	created_at: Date;
 };
@@ -21,11 +29,11 @@ export class _Transaction {
 		return this._id;
 	}
 
-	public get to(): _User {
+	public get to(): MinimalSafeUser {
 		return this.props.to;
 	}
 
-	public get from(): _User {
+	public get from(): MinimalSafeUser {
 		return this.props.from;
 	}
 

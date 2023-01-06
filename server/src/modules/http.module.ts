@@ -24,5 +24,7 @@ export const userController = new UserController(userServices);
 export const accountController = new AccountController(accountServices);
 export const authController = new AuthController(accountServices, userServices);
 export const transactionController = new TransactionController(
-	transactionServices
+	transactionServices,
+	userServices,
+	accountServices
 );
