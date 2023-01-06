@@ -13,6 +13,14 @@ export interface SafeUser {
 	account: { id: string; balance: number; transaction_ids: string[] };
 }
 
+export type TokenProps = {
+	id: string;
+	username: string;
+	account: {
+		id: string;
+	};
+};
+
 export interface Token {
 	accessToken: string;
 }
@@ -48,7 +56,14 @@ export class UserServices {
 			return null;
 		}
 		const safeUser = this.turnSafe(unsafeUser);
-		const { accessToken } = this.generateJWT(safeUser);
+		const tokenProps: TokenProps = {
+			id: safeUser.id,
+			username: safeUser.username,
+			account: {
+				id: safeUser.account.id,
+			},
+		};
+		const { accessToken } = this.generateJWT(tokenProps);
 		const safeUserWithToken: SafeUser & Token = {
 			...safeUser,
 			accessToken,
@@ -86,11 +101,11 @@ export class UserServices {
 		};
 	}
 
-	private generateJWT(safeUser: SafeUser): Token {
-		if ("password" in safeUser) {
-			throw new Error("Unsafe user provided to JWT");
+	private generateJWT(tokenProps: TokenProps): Token {
+		if ("password" in tokenProps || "balance" in tokenProps) {
+			throw new Error("Private User information provided to JWT");
 		}
-		const token = jsonwebtoken.sign(safeUser, jwtSecret, {
+		const token = jsonwebtoken.sign(tokenProps, jwtSecret, {
 			expiresIn: "1d",
 		});
 		return { accessToken: token };
