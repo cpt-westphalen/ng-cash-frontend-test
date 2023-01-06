@@ -27,4 +27,8 @@ router.post("/:account_id/send", (req, res) =>
 	transactionController.cashOut(req, res)
 );
 
+router.get("/:account_id/history", (req, res) =>
+	accountController.getTransactionHistory(req, res)
+);
+
 export const routes = router;
