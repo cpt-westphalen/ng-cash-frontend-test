@@ -14,7 +14,7 @@ export class AuthController {
 	async createUser(req: Request, res: Response) {
 		const { username, password } = req.body;
 		if (!username || !password) {
-			return res.status(400);
+			return res.status(400).send();
 		}
 		if (username.length < 3 || password.length < 8) {
 			return res
@@ -35,7 +35,13 @@ export class AuthController {
 		}
 
 		const account = await this.accountServices.create();
-		if (!account) return res.status(500);
+		if (!account)
+			return res
+				.status(500)
+				.json({
+					message:
+						"DB error: could not create account. Try again later.",
+				});
 
 		const unsafeUser = await this.userServices.create(
 			{
@@ -86,6 +92,6 @@ export class AuthController {
 				}
 			}
 		}
-		return res.status(400);
+		return res.status(400).send();
 	}
 }

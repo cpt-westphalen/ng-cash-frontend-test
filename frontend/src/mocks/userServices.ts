@@ -2,11 +2,11 @@ export interface UserType {
 	user_id: string;
 	username: string;
 	accessToken: string;
-	account_id: string;
+	account: AccountType;
 }
 
 export type AccountType = {
-	account_id: string;
+	id: string;
 	balance: number;
 };
 

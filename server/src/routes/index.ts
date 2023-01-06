@@ -15,6 +15,7 @@ router.post("/login", (req, res) => authController.loginUser(req, res));
 router.post("/register", (req, res) => authController.createUser(req, res));
 
 router.use(tokenParser);
+
 router.get("/:account_id/cash", (req, res) =>
 	accountController.getAccountBalance(req, res)
 );
