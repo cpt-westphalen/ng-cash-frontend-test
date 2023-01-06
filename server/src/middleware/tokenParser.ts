@@ -29,7 +29,10 @@ export const tokenParser = (
 	};
 
 	const bearerToken = req.headers.authorization;
-	if (!bearerToken) return res.status(403).send();
+	if (!bearerToken) {
+		req.body.user = null;
+		return next();
+	}
 	const accessToken = bearerToken.split(" ")[1];
 
 	let user;
