@@ -1,8 +1,9 @@
 import { randomUUID } from "crypto";
+
 import { _Account } from "../models/_Account";
-import { AccountRepository } from "../repositories/AccountRepository";
 import { _Transaction } from "../models/_Transaction";
-import { Transaction } from "@prisma/client";
+
+import { AccountRepository } from "../repositories/AccountRepository";
 
 export class AccountServices {
 	constructor(private accountRepository: AccountRepository) {}

@@ -1,19 +1,25 @@
 import { Account, PrismaClient, Transaction, User } from "@prisma/client";
-import { AccountRepository } from "../../../../entities/repositories/AccountRepository";
+
 import { _Account } from "../../../../entities/models/_Account";
 import { _User } from "../../../../entities/models/_User";
+
+import { AccountRepository } from "../../../../entities/repositories/AccountRepository";
+
 import { PrismaMappers } from "./mappers/prisma-mappers";
+
 import {
 	MinimalSafeUser,
 	_Transaction,
 } from "../../../../entities/models/_Transaction";
+
+import { prismaService } from "../prismaService";
 
 export interface ExtendedTransaction extends Transaction {
 	debitedAccount?: Account & { owner: User | null };
 	creditedAccount?: Account & { owner: User | null };
 }
 
-export class PrismaAccountRepository implements AccountRepository {
+class PrismaAccountRepository implements AccountRepository {
 	constructor(private prismaService: PrismaClient) {}
 
 	async getTransactions(accountId: string): Promise<_Transaction[] | null> {
@@ -83,3 +89,7 @@ export class PrismaAccountRepository implements AccountRepository {
 		return query ? query.balance : null;
 	}
 }
+
+export const prismaAccountRepository = new PrismaAccountRepository(
+	prismaService
+);

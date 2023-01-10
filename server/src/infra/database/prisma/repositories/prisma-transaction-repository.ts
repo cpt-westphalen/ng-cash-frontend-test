@@ -1,8 +1,13 @@
 import { PrismaClient, Transaction } from "@prisma/client";
-import { TransactionRepository } from "../../../../entities/repositories/TransactionRepository";
+
 import { _Transaction } from "../../../../entities/models/_Transaction";
-import { TransactionMapper } from "../../../../entities/services/mappers/transactionMapper";
+
+import { TransactionRepository } from "../../../../entities/repositories/TransactionRepository";
+
+import { TransactionMapper } from "../../../../entities/services/mappers/transaction-mappers";
 import { UserMappers } from "../../../../entities/services/mappers/user-mappers";
+
+import { prismaService } from "../prismaService";
 
 export type PrismaTransaction = {
 	transactionId: string;
@@ -12,7 +17,7 @@ export type PrismaTransaction = {
 	debitedAccountId: string;
 };
 
-export class PrismaTransactionRepository implements TransactionRepository {
+class PrismaTransactionRepository implements TransactionRepository {
 	constructor(private prismaService: PrismaClient) {}
 
 	async getAll(): Promise<Transaction[]> {
@@ -83,3 +88,7 @@ export class PrismaTransactionRepository implements TransactionRepository {
 		return transaction;
 	}
 }
+
+export const prismaTransactionRepository = new PrismaTransactionRepository(
+	prismaService
+);

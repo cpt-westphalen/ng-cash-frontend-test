@@ -1,9 +1,14 @@
 import { PrismaClient, User } from "@prisma/client";
-import { UserRepository } from "../../../../entities/repositories/UserRepository";
+
 import { _User } from "../../../../entities/models/_User";
+
+import { UserRepository } from "../../../../entities/repositories/UserRepository";
+
 import { PrismaMappers } from "./mappers/prisma-mappers";
 
-export class PrismaUserRepository implements UserRepository {
+import { prismaService } from "../prismaService";
+
+class PrismaUserRepository implements UserRepository {
 	constructor(private prismaService: PrismaClient) {}
 	async getAll(): Promise<User[]> {
 		const users = await this.prismaService.user.findMany({
@@ -45,3 +50,5 @@ export class PrismaUserRepository implements UserRepository {
 		return prismaUser ? PrismaMappers.toServerUser(prismaUser) : null;
 	}
 }
+
+export const prismaUserRepository = new PrismaUserRepository(prismaService);

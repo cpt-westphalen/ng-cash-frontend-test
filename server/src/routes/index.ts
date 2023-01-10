@@ -1,10 +1,12 @@
 import { Router } from "express";
+
 import {
 	accountController,
 	authController,
 	userController,
 	transactionController,
 } from "../modules/http.module";
+
 import { tokenParser } from "../middleware/tokenParser";
 
 const router = Router();

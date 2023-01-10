@@ -1,17 +1,16 @@
 import { Request, Response } from "express";
-import { TransactionServices } from "../entities/services/_TransactionServices";
-import {
-	SafeUser,
-	TokenProps,
-	UserServices,
-} from "../entities/services/_UserServices";
 import { validate } from "uuid";
+
+import { TokenProps, UserServices } from "../entities/services/_UserServices";
 import { AccountServices } from "../entities/services/_AccountServices";
+import { TransactionServices } from "../entities/services/_TransactionServices";
+
 import { MinimalSafeUser } from "../entities/models/_Transaction";
+
 import {
 	HttpTransactionRequest,
 	TransactionMapper,
-} from "../entities/services/mappers/transactionMapper";
+} from "../entities/services/mappers/transaction-mappers";
 
 export class TransactionController {
 	constructor(
@@ -26,7 +25,7 @@ export class TransactionController {
 	}
 
 	async cashOut(req: Request, res: Response) {
-		const user: TokenProps = req.body.user;
+		const user: TokenProps | null = req.body.user;
 		const accountId = req.params.account_id;
 		const httpTransactionReq: HttpTransactionRequest = req.body;
 

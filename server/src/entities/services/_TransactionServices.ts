@@ -4,7 +4,7 @@ import { TransactionRepository } from "../repositories/TransactionRepository";
 import {
 	HttpTransaction,
 	TransactionMapper,
-} from "./mappers/transactionMapper";
+} from "./mappers/transaction-mappers";
 
 export class TransactionServices {
 	constructor(private transactionRepository: TransactionRepository) {}
