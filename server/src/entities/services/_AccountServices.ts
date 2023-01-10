@@ -17,7 +17,7 @@ export class AccountServices {
 		return balance;
 	}
 
-	async getTransactions(accountId: string): Promise<Transaction[] | null> {
+	async getTransactions(accountId: string): Promise<_Transaction[] | null> {
 		const transactions = await this.accountRepository.getTransactions(
 			accountId
 		);
