@@ -13,7 +13,8 @@ Você encontra uma cópia dos requisitos [aqui](https://www.notion.so/cpt-westph
 
 ## Exemplo
 
-> . . .
+![2](https://user-images.githubusercontent.com/97403327/211635016-424aaac5-5b97-4bda-b0be-be0c4eb3b646.png)
+
 
 ## Como rodar o código
 
@@ -110,7 +111,13 @@ Confira a história completa de commits: [commits/main](https://github.com/cpt-w
 
 ## Screenshots
 
-// To-do ...
+![1](https://user-images.githubusercontent.com/97403327/211635078-bb837a47-2a33-4628-9f33-d8b6e4c1ca68.png)
+
+![4](https://user-images.githubusercontent.com/97403327/211635120-0e74078d-d574-4d11-9d19-806d5d60e0c7.png)
+
+![5](https://user-images.githubusercontent.com/97403327/211635174-7fc56211-b757-48f7-ad22-19b4c8936551.png)
+
+![6](https://user-images.githubusercontent.com/97403327/211635201-2ebe9b91-4219-4589-bc61-2fb1cb1cff2d.png)
 
 ## API Routes
 
