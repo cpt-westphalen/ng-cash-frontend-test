@@ -78,12 +78,17 @@ export class PrismaMappers {
 		const id = extendedTransaction.transactionId;
 		const amount = extendedTransaction.value;
 		const created_at = extendedTransaction.createdAt;
-		const from: MinimalSafeUser = rootUser;
-		const to: MinimalSafeUser = {
+		const targetUser: MinimalSafeUser = {
 			id: targetAccount.owner.userId,
 			username: targetAccount.owner.username,
 			account: { id: targetAccount.accountId },
 		};
+		const from: MinimalSafeUser = extendedTransaction.creditedAccount
+			? rootUser
+			: targetUser;
+		const to: MinimalSafeUser = extendedTransaction.debitedAccount
+			? rootUser
+			: targetUser;
 		const transaction = new _Transaction(
 			{ to, from, amount, created_at },
 			id

@@ -1,3 +1,10 @@
+O Readme abaixo foi enviado junto com o teste técnico original (apenas frontend, incompleto).
+Aqui é possível identificar o estado do projeto em **04 de dezembro** e as limitações na época.
+
+### Para a versão atual da documentação, volte para a pasta root do repositório.
+
+---
+
 # NG.CASH Entrevista técnica
 
 Objetivo: construir aplicação web fullstack dockeirizada para usuários NG.CASH poderem fazer transações entre si, com prazo sugerido de 7 dias para execução.
