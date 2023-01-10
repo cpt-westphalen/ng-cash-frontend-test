@@ -1,6 +1,6 @@
 import { Reducer } from "react";
 import { localLogout } from "../services/auth";
-import { AccountType, UserType } from "../mocks/userServices";
+import { AccountType, UserType } from "./AuthContext";
 
 export type AuthAction = {
 	type: string;
@@ -9,7 +9,6 @@ export type AuthAction = {
 
 export type AuthType = {
 	user: UserType;
-	account: AccountType;
 };
 
 export const initialAuth: AuthType = {
@@ -17,11 +16,10 @@ export const initialAuth: AuthType = {
 		username: "",
 		user_id: "",
 		accessToken: "",
-		account_id: "",
-	},
-	account: {
-		account_id: "",
-		balance: 0,
+		account: {
+			id: "",
+			balance: 0,
+		},
 	},
 };
 
@@ -41,7 +39,7 @@ export const authReducer: Reducer<AuthType, AuthAction> = (auth, action) => {
 		}
 		case "update_balance": {
 			const account: AccountType = action.payload;
-			if (!account || account.account_id !== auth.user.account_id) {
+			if (!account || account.id !== auth.user.account.id) {
 				localLogout();
 				return { ...initialAuth };
 			} else {

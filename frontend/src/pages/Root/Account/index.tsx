@@ -1,8 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { AuthContext, AuthDispatch } from "../../../contexts/AuthContext";
-import { AccountType, UserType } from "../../../mocks/userServices";
+import {
+	AccountType,
+	UserType,
+	AuthContext,
+	AuthDispatch,
+} from "../../../contexts/AuthContext";
 import { AuthAction, AuthType } from "../../../contexts/authReducer";
 
 import { checkUserBalance } from "../../../services/account";
@@ -69,7 +73,7 @@ export const Account = () => {
 		setIsHistoryOpen((prev) => !prev);
 	};
 
-	if (auth.user && auth.account.balance !== undefined)
+	if (auth.user && auth.user.account.balance !== undefined)
 		return (
 			<div className='md:bg-ng md:bg-cover w-full min-h-screen'>
 				<div className='min-h-screen max-w-4xl mx-auto px-12 pt-10 lg:pt-24 flex flex-col justify-center'>
@@ -94,7 +98,7 @@ export const Account = () => {
 						<CashDisplay
 							className='md:py-12 md:px-8 md:rounded-lg md:border-b md:border-zinc-900 md:bg-black'
 							title='Saldo atual'
-							cash={auth.account.balance}
+							cash={auth.user.account.balance}
 							display={{ hide: !showCash, toggle: setShowCash }}
 						/>
 						<div className='py-6 flex flex-col justify-center items-center gap-3'>

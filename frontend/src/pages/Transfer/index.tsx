@@ -1,4 +1,3 @@
-import { Link, useNavigate } from "react-router-dom";
 import {
 	ChangeEvent,
 	FormEvent,
@@ -7,17 +6,27 @@ import {
 	useRef,
 	useState,
 } from "react";
-import { AuthContext, AuthDispatch } from "../../contexts/AuthContext";
-import { GoChevronLeft } from "react-icons/go";
-import { CashDisplay } from "../../components/CashDisplay";
-import { AccountType, UserType } from "../../mocks/userServices";
-import { AuthAction, AuthType } from "../../contexts/authReducer";
-import { cashToLocaleString } from "../../utils/cashFormatter";
-import { Button } from "../../components/Button";
-import { transfer } from "../../services/transfer";
+import { Link, useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
-import { Modal } from "../../components/Modal";
+
+import {
+	AccountType,
+	UserType,
+	AuthContext,
+	AuthDispatch,
+} from "../../contexts/AuthContext";
+import { AuthAction, AuthType } from "../../contexts/authReducer";
+
 import { checkUserBalance } from "../../services/account";
+import { transfer } from "../../services/transfer";
+
+import { Button } from "../../components/Button";
+import { CashDisplay } from "../../components/CashDisplay";
+import { Modal } from "../../components/Modal";
+
+import { GoChevronLeft } from "react-icons/go";
+
+import { cashToLocaleString } from "../../utils/cashFormatter";
 
 const emptyError = {
 	hasAny: false,
@@ -112,7 +121,7 @@ export const Transfer = () => {
 		const cash = parseInt(value);
 		setAmountToTransfer((prev) => {
 			if (amountRef.current) {
-				if (cash > auth.account.balance) {
+				if (cash > auth.user.account.balance) {
 					const cashFormattedValue = cashToLocaleString(prev);
 					amountRef.current.value = "R$ " + cashFormattedValue;
 					setErrors({
@@ -170,7 +179,7 @@ export const Transfer = () => {
 		if (
 			formStatus !== "isSure?" &&
 			amountToTransfer > 0 &&
-			auth.account.balance > 0
+			auth.user.account.balance > 0
 		) {
 			if (whoToTransfer == auth.user.username) {
 				setErrors(() => {
@@ -257,7 +266,7 @@ export const Transfer = () => {
 						<CashDisplay
 							className='w-full md:w-full'
 							title='Saldo restante'
-							cash={auth.account.balance - amountToTransfer}
+							cash={auth.user.account.balance - amountToTransfer}
 							display={{ hide: !showCash, toggle: setShowCash }}
 						/>
 					</div>

@@ -1,6 +1,17 @@
 import { createContext, useReducer } from "react";
-import { UserType } from "../mocks/userServices";
 import { AuthAction, authReducer, AuthType, initialAuth } from "./authReducer";
+
+export interface UserType {
+	user_id: string;
+	username: string;
+	accessToken: string;
+	account: AccountType;
+}
+
+export type AccountType = {
+	id: string;
+	balance: number;
+};
 
 type AuthContextType = {
 	user: UserType;

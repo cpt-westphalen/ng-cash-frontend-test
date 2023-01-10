@@ -1,5 +1,5 @@
 import axios from "axios";
-import { UserType } from "../mocks/userServices";
+import { UserType } from "../contexts/AuthContext";
 
 type TransferProps = {
 	from: UserType;
