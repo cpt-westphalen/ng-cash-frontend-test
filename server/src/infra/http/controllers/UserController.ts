@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { UserServices } from "../entities/services/_UserServices";
-import { _User } from "../entities/models/_User";
+import { UserServices } from "../../../application/services/UserServices";
+import { _User } from "../../../application/models/_User";
 
 export class UserController {
 	constructor(private userServices: UserServices) {}

@@ -1,6 +1,8 @@
-import { _Transaction, MinimalSafeUser } from "../models/_Transaction";
-import { _User } from "../models/_User";
 import { TransactionRepository } from "../repositories/TransactionRepository";
+
+import { _User } from "../models/_User";
+import { _Transaction, MinimalSafeUser } from "../models/_Transaction";
+
 import {
 	HttpTransaction,
 	TransactionMapper,

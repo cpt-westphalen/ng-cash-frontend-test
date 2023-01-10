@@ -2,10 +2,10 @@ import { Account, User } from "@prisma/client";
 import {
 	MinimalSafeUser,
 	_Transaction,
-} from "../../../../../entities/models/_Transaction";
+} from "../../../../../application/models/_Transaction";
 import { PrismaTransaction } from "../prisma-transaction-repository";
-import { _User } from "../../../../../entities/models/_User";
-import { _Account } from "../../../../../entities/models/_Account";
+import { _User } from "../../../../../application/models/_User";
+import { _Account } from "../../../../../application/models/_Account";
 import { ExtendedTransaction } from "../prisma-account-repository";
 
 export class PrismaMappers {

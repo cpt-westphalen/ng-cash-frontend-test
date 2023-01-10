@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
-import { AccountServices } from "../entities/services/_AccountServices";
-import { Credentials, UserServices } from "../entities/services/_UserServices";
+import { AccountServices } from "../../../application/services/AccountServices";
+import {
+	Credentials,
+	UserServices,
+} from "../../../application/services/UserServices";
 
 export class AuthController {
 	constructor(
@@ -36,12 +39,9 @@ export class AuthController {
 
 		const account = await this.accountServices.create();
 		if (!account)
-			return res
-				.status(500)
-				.json({
-					message:
-						"DB error: could not create account. Try again later.",
-				});
+			return res.status(500).json({
+				message: "DB error: could not create account. Try again later.",
+			});
 
 		const unsafeUser = await this.userServices.create(
 			{

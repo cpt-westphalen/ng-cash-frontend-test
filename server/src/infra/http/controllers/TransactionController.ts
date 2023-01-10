@@ -1,16 +1,19 @@
 import { Request, Response } from "express";
 import { validate } from "uuid";
 
-import { TokenProps, UserServices } from "../entities/services/_UserServices";
-import { AccountServices } from "../entities/services/_AccountServices";
-import { TransactionServices } from "../entities/services/_TransactionServices";
+import {
+	TokenProps,
+	UserServices,
+} from "../../../application/services/UserServices";
+import { AccountServices } from "../../../application/services/AccountServices";
+import { TransactionServices } from "../../../application/services/TransactionServices";
 
-import { MinimalSafeUser } from "../entities/models/_Transaction";
+import { MinimalSafeUser } from "../../../application/models/_Transaction";
 
 import {
 	HttpTransactionRequest,
 	TransactionMapper,
-} from "../entities/services/mappers/transaction-mappers";
+} from "../../../application/services/mappers/transaction-mappers";
 
 export class TransactionController {
 	constructor(

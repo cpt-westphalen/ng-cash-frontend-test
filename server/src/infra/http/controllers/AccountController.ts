@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { AccountServices } from "../entities/services/_AccountServices";
-import { TokenProps } from "../entities/services/_UserServices";
+import { AccountServices } from "../../../application/services/AccountServices";
+import { TokenProps } from "../../../application/services/UserServices";
 import { validate } from "uuid";
-import { TransactionMapper } from "../entities/services/mappers/transaction-mappers";
+import { TransactionMapper } from "../../../application/services/mappers/transaction-mappers";
 
 export class AccountController {
 	constructor(private accountServices: AccountServices) {}

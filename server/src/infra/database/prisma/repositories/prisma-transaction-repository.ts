@@ -1,11 +1,11 @@
 import { PrismaClient, Transaction } from "@prisma/client";
 
-import { _Transaction } from "../../../../entities/models/_Transaction";
+import { _Transaction } from "../../../../application/models/_Transaction";
 
-import { TransactionRepository } from "../../../../entities/repositories/TransactionRepository";
+import { TransactionRepository } from "../../../../application/repositories/TransactionRepository";
 
-import { TransactionMapper } from "../../../../entities/services/mappers/transaction-mappers";
-import { UserMappers } from "../../../../entities/services/mappers/user-mappers";
+import { TransactionMapper } from "../../../../application/services/mappers/transaction-mappers";
+import { UserMappers } from "../../../../application/services/mappers/user-mappers";
 
 import { prismaService } from "../prismaService";
 

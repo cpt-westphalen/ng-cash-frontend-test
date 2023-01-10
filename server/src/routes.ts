@@ -5,13 +5,9 @@ import {
 	authController,
 	userController,
 	transactionController,
-} from "../modules/http.module";
-
-import { tokenParser } from "../middleware/tokenParser";
+} from "./infra/http/http.module";
 
 const router = Router();
-
-router.use(tokenParser);
 
 router.get("/users", (req, res) => userController.getUsers(req, res));
 router.get("/transactions", (req, res) =>

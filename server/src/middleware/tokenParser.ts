@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import jsonwebtoken from "jsonwebtoken";
 
 import { jwtSecret } from "../config/auth.config";
-import { _Account } from "../entities/models/_Account";
+import { _Account } from "../application/models/_Account";
 
 interface SafeUser {
 	id: string;

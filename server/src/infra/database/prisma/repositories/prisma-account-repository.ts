@@ -1,16 +1,16 @@
 import { Account, PrismaClient, Transaction, User } from "@prisma/client";
 
-import { _Account } from "../../../../entities/models/_Account";
-import { _User } from "../../../../entities/models/_User";
+import { _Account } from "../../../../application/models/_Account";
+import { _User } from "../../../../application/models/_User";
 
-import { AccountRepository } from "../../../../entities/repositories/AccountRepository";
+import { AccountRepository } from "../../../../application/repositories/AccountRepository";
 
 import { PrismaMappers } from "./mappers/prisma-mappers";
 
 import {
 	MinimalSafeUser,
 	_Transaction,
-} from "../../../../entities/models/_Transaction";
+} from "../../../../application/models/_Transaction";
 
 import { prismaService } from "../prismaService";
 

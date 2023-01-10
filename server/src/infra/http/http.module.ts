@@ -2,16 +2,16 @@ import {
 	userRepository,
 	accountRepository,
 	transactionRepository,
-} from "./database.module";
+} from "../database/database.module";
 
-import { UserServices } from "../entities/services/_UserServices";
-import { AccountServices } from "../entities/services/_AccountServices";
-import { TransactionServices } from "../entities/services/_TransactionServices";
+import { UserServices } from "../../application/services/UserServices";
+import { AccountServices } from "../../application/services/AccountServices";
+import { TransactionServices } from "../../application/services/TransactionServices";
 
-import { UserController } from "../controllers/_UserController";
-import { AccountController } from "../controllers/_AccountController";
-import { AuthController } from "../controllers/_AuthController";
-import { TransactionController } from "../controllers/TransactionController";
+import { UserController } from "./controllers/UserController";
+import { AccountController } from "./controllers/AccountController";
+import { AuthController } from "./controllers/AuthController";
+import { TransactionController } from "./controllers/TransactionController";
 
 const userServices = new UserServices(userRepository);
 const accountServices = new AccountServices(accountRepository);
